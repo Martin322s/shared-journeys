@@ -11,15 +11,15 @@
 2. Express
  - [x] Install `npm i express`
  - [x] Setup inital http server
- - [ ] Add public resources (images, css...)
- - [ ] Add static middleware
- - [ ] Add body parser
- - [ ] Add routes modular router
- - [ ] Add home controller
+ - [x] Add public resources (images, css...)
+ - [x] Add static middleware
+ - [x] Add body parser
+ - [x] Add routes modular router
+ - [x] Add home controller
 3. Handlebars
- - [ ] Install `npm i express-handlebars`
- - [ ] Config handlebars as view engine
- - [ ] Enable mongo documents to be passed to the view
+ - [x] Install `npm i express-handlebars`
+ - [x] Config handlebars as view engine
+ - [-] Enable mongo documents to be passed to the view
  - [ ] Change views directory
  - [ ] Add resources to views folder
  - [ ] Add home view
