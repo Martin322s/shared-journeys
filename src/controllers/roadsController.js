@@ -14,4 +14,8 @@ router.get('/contacts', (req, res) => {
     res.render('contacts', { layout: 'contacts' });
 });
 
+router.get('/journey-offer', (req, res) => {
+    res.render('trip-create', { layout: 'trip-create' });
+});
+
 export default router;
