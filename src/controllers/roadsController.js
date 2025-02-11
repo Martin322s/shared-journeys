@@ -10,4 +10,8 @@ router.get('/about', (req, res) => {
     res.render('about', { layout: 'about' });
 });
 
+router.get('/contacts', (req, res) => {
+    res.render('contacts', { layout: 'contacts' });
+});
+
 export default router;
