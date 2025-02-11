@@ -1,0 +1,27 @@
+{
+    "name": "shared-journeys",
+    "version": "1.0.0",
+    "description": "1. Initialize project\r  - [ ] `npm init --yes`\r  - [ ] Change module system\r  - [ ] Nodemon setup `npm i -D nodemon`\r  - [ ] Add start script\r  - [ ] Setup debugging\r 2. Express\r  - [ ] Install `npm i express`\r  - [ ] Setup inital http server\r  - [ ] Add public resources (images, css...)\r  - [ ] Add static middleware\r  - [ ] Add body parser\r  - [ ] Add routes modular router\r  - [ ] Add home controller\r 3. Handlebars\r  - [ ] Install `npm i express-handlebars`\r  - [ ] Config handlebars as view engine\r  - [ ] Enable mongo documents to be passed to the view\r  - [ ] Change views directory\r  - [ ] Add resources to views folder\r  - [ ] Add home view\r  - [ ] Add layout\r  - [ ] Add partials dir\r 4. Database\r  - [ ] Install mongoose `npm i mongoose`\r  - [ ] Setup db connection\r  - [ ] Add user model\r 5. Register\r  - [ ] Install bcrypt `npm i bcrypt`\r  - [ ] Fix navigation links\r  - [ ] Add register view\r  - [ ] Add authController\r  - [ ] Add register page\r  - [ ] Fix register form\r  - [ ] Add post register action\r  - [ ] Add authService with register\r  - [ ] Hash password\r  - [ ] Check confirmPassword\r  - [ ] Check if user exists\r 6. Login\r  - [ ] Add jsonwebtoken `npm i jsonwebtoken`\r  - [ ] Add cookie parser middleware\r  - [ ] Add login view\r  - [ ] Add get login action\r  - [ ] Fix login form\r  - [ ] Add post login action\r  - [ ] Add login to authService\r  - [ ] Validate user\r  - [ ] Validate password\r  - [ ] Generate token\r  - [ ] Return token as cookie\r  - [ ] Autologin on register\r 7. Logout\r  - [ ] Add get logout action\r 8. Authentication\r  - [ ] Add cookie parser `npm i cookie-parser`\r  - [ ] Add auth middleware \r  - [ ] Check if guest\r  - [ ] Token verification\r  - [ ] Attach user to request\r  - [ ] Attach user to handlebars context\r 9.  Authorization\r  - [ ] Add isAuth middleware\r  - [ ] Add isGuest middleware\r  - [ ] Add route guards authorization\r 10. Error Handling\r  - [ ] Add notifications\r  - [ ] Extract error message\r  - [ ] Add error handling for register\r  - [ ] Add error handling for login\r 11. Bonus\r  - [ ] Dynamic Navigation\r  - [ ] Dynamic Titles\r  - [ ] Set titles from view\r  - [ ] Async jsonwebtoken\r  - [ ] Add types for jsonwebtoken lib\r 12. TempData | Optional\r  - [ ] Install express session `npm i express-session`\r  - [ ] Config express session\r  - [ ] Add temp data middleware",
+    "main": "index.js",
+    "module": "es6",
+    "scripts": {
+        "start": "nodemon index.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Martin322s/shared-journeys.git"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/Martin322s/shared-journeys/issues"
+    },
+    "homepage": "https://github.com/Martin322s/shared-journeys#readme",
+    "devDependencies": {
+        "nodemon": "^3.1.9"
+    },
+    "dependencies": {
+        "express": "^4.21.2"
+    }
+}
