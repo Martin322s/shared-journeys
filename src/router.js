@@ -9,6 +9,6 @@ const router = express.Router();
 router.use('/', homeController);
 router.use('/roads', roadsController);
 router.use('/users', authController);
-router.get('*', (req, res) => res.render('<h1>404 NOT FOUND</h1>'));
+router.get('*', (req, res) => res.send('<h1>404 NOT FOUND</h1>'));
 
 export default router;
