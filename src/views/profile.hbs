@@ -2,17 +2,17 @@
     <div class="container-profile">
         <div class="profile-card">
             <div class="profile-header">
-                <img src="/assets/img/profile-image.jpg" alt="Профилна снимка" class="profile-image">
-                <h1 class="profile-name">Иван Иванов</h1>
+                <img src="{{user.profilePicture}}" alt="Профилна снимка" class="profile-image">
+                <h1 class="profile-name">{{user.firstName}} {{user.lastName}}</h1>
             </div>
 
             <div class="profile-stats">
                 <div class="stat-card">
-                    <div class="stat-number">25</div>
+                    <div class="stat-number">{{user.tripsSubscribedHistory.length}}</div>
                     <div class="stat-label">Завършени пътувания</div>
                 </div>
                 <div class="stat-card">
-                    <div class="stat-number">15</div>
+                    <div class="stat-number">{{user.tripsSharedHistory.length}}</div>
                     <div class="stat-label">Споделени обяви</div>
                 </div>
             </div>
@@ -20,19 +20,15 @@
             <div class="profile-details">
                 <div class="detail-item">
                     <span class="detail-label">Имейл:</span>
-                    <span class="detail-value">ivan.ivanov@email.com</span>
+                    <span class="detail-value">{{user.email}}</span>
                 </div>
                 <div class="detail-item">
                     <span class="detail-label">Телефон:</span>
-                    <span class="detail-value">+359 88 888 8888</span>
+                    <span class="detail-value">{{user.phone}}</span>
                 </div>
                 <div class="detail-item">
                     <span class="detail-label">Регистриран от:</span>
-                    <span class="detail-value">Януари 2024</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">Автомобил:</span>
-                    <span class="detail-value">Toyota Corolla (2020)</span>
+                    <span class="detail-value">{{user.createdAt}}</span>
                 </div>
             </div>
         </div>
@@ -53,25 +49,6 @@
                     </div>
                 </div>
 
-                <div class="ride-card">
-                    <div class="ride-date">10 Февруари 2024</div>
-                    <div class="ride-title">Пловдив → Бургас</div>
-                    <div class="ride-details">
-                        Заминаване: 09:30 ч.<br>
-                        Свободни места: 2<br>
-                        Цена: 20 лв.
-                    </div>
-                </div>
-
-                <div class="ride-card">
-                    <div class="ride-date">5 Февруари 2024</div>
-                    <div class="ride-title">София → Благоевград</div>
-                    <div class="ride-details">
-                        Заминаване: 14:00 ч.<br>
-                        Свободни места: 4<br>
-                        Цена: 15 лв.
-                    </div>
-                </div>
             </div>
 
             <!-- Записани пътувания -->
@@ -88,25 +65,6 @@
                     </div>
                 </div>
 
-                <div class="ride-card">
-                    <div class="ride-date">12 Февруари 2024</div>
-                    <div class="ride-title">Бургас → София</div>
-                    <div class="ride-details">
-                        Заминаване: 10:00 ч.<br>
-                        Шофьор: Георги Георгиев<br>
-                        Цена: 23 лв.
-                    </div>
-                </div>
-
-                <div class="ride-card">
-                    <div class="ride-date">8 Февруари 2024</div>
-                    <div class="ride-title">Русе → Плевен</div>
-                    <div class="ride-details">
-                        Заминаване: 15:30 ч.<br>
-                        Шофьор: Мария Иванова<br>
-                        Цена: 15 лв.
-                    </div>
-                </div>
             </div>
         </div>
     </div>

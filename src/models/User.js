@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { format } from 'date-fns';
 
 const userSchema = new mongoose.Schema({
     firstName: {
@@ -13,6 +14,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    phone: {
+        type: String,
+        required: true
+    },
     profilePicture: {
         type: String,
         required: true
@@ -21,10 +26,18 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    tripsHistory: [{
+    tripsSharedHistory: [{
+        type: mongoose.Types.ObjectId,
+        ref: 'Trip'
+    }],
+    tripsSubscribedHistory: [{
         type: mongoose.Types.ObjectId,
         ref: 'Trip'
     }]
+}, { timestamps: true });
+
+userSchema.virtual('formattedDate').get(function () {
+    return format(this.createdAt, 'dd.MM.yyyy HH:mm');
 });
 
 const User = mongoose.model('User', userSchema);

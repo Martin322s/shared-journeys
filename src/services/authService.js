@@ -51,3 +51,13 @@ export const generateToken = async (user) => {
     const token = jwtSign({ _id: user._id, email: user.email }, SECRET, { expiresIn: '2d' });
     return token;
 }
+
+export const getUserData = async (userEmail) => {
+    const user = await User.findOne({ email: userEmail });
+
+    if (user) {
+        return user;
+    } else {
+        return 'User bot found!';
+    }
+}

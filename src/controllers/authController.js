@@ -1,5 +1,5 @@
 import express from 'express';
-import { generateToken, loginUser, registerUser } from '../services/authService.js';
+import { generateToken, getUserData, loginUser, registerUser } from '../services/authService.js';
 
 const router = express.Router();
 
@@ -61,8 +61,24 @@ router.get('/logout', (req, res) => {
     res.redirect('/');
 });
 
-router.get('/profile', (req, res) => {
-    res.render('profile', { layout: 'profile' });
+router.get('/profile', async (req, res) => {
+    const email = res.locals.email;
+    const userData = await getUserData(email);
+    console.log(userData);
+
+    res.render('profile', { 
+        layout: 'profile', 
+        user: { 
+            firstName: userData.firstName,
+            lastName: userData.lastName,
+            email: userData.email,
+            profilePicture: userData.profilePicture,
+            phone: userData.phone,
+            tripsSubscribedHistory: userData.tripsSubscribedHistory,
+            tripsSharedHistory: userData.tripsSharedHistory,
+            createdAt: userData.formattedDate
+        } 
+    });
 });
 
 export default router;
