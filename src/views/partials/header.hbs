@@ -10,16 +10,20 @@
             <ul>
                 <li><a href="/">Начало</a></li>
                 <li><a href="/roads/road-offers">Каталог</a></li>
-                <li><a href="/roads/journey-offer">Сподели пътуване</a></li>
-                <li><a href="/users/profile">Профил</a></li>
+                {{#if user}}
+                    <li><a href="/roads/journey-offer">Сподели пътуване</a></li>
+                    <li><a href="/users/profile">Профил</a></li>
+                {{/if}}
                 <li><a href="/roads/about">За нас</a></li>
                 <li><a href="/roads/contacts">Контакти</a></li>
             </ul>
             <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
-
-        <a class="btn-getstarted" href="/users/login">Вход</a>
-        <a class="btn-getstarted" href="/users/register">Регистрация</a>
-        <a class="btn-getstarted" href="/users/logout">Изход</a>
+        {{#if user}}
+            <a class="btn-getstarted" href="/users/logout">Изход</a>
+        {{else}}
+            <a class="btn-getstarted" href="/users/login">Вход</a>
+            <a class="btn-getstarted" href="/users/register">Регистрация</a>
+        {{/if}}
     </div>
 </header>

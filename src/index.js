@@ -4,11 +4,13 @@ import { initViewEngine } from '../config/view-engine.js';
 import { initialDatabase } from '../config/database.js';
 import cookieParser from 'cookie-parser';
 import { auth } from './middlewares/authMiddleware.js';
+import fileUpload from 'express-fileupload';
 
 const app = express();
-const port = 5000;
+const port = 5000
 
 initViewEngine(app);
+app.use(fileUpload());
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());

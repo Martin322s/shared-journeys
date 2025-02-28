@@ -1,5 +1,5 @@
 <main class="register-body" data-vide-bg="/assets/img/reg-bg.mp4">
-    <form class="form-default" action="login-bg.mp4" method="POST">
+    <form class="form-default" action="/users/register" method="POST" enctype="multipart/form-data">
         <div class="register-form">
             <div class="logo-login">
                 <a href="/"><img src="/assets/img/logo2.png" alt=""></a>
@@ -8,11 +8,11 @@
 
             <div class="form-input">
                 <label for="name">Име</label>
-                <input type="text" name="name" placeholder="Въведете вашето име...">
+                <input type="text" name="firstName" placeholder="Въведете вашето име...">
             </div>
             <div class="form-input">
                 <label for="name">Фамилия</label>
-                <input type="text" name="name" placeholder="Въведете вашата фамилия...">
+                <input type="text" name="lastName" placeholder="Въведете вашата фамилия...">
             </div>
             <div class="form-input">
                 <label for="name">Имейл</label>
@@ -20,7 +20,7 @@
             </div>
             <div class="form-input">
                 <label for="name">Профилна снимка</label>
-                <input type="file" name="image" autocomplete="image">
+                <input type="file" name="profilePicture" autocomplete="image">
             </div>
             <div class="form-input">
                 <label for="name">Парола</label>
@@ -29,13 +29,13 @@
             </div>
             <div class="form-input">
                 <label for="name">Повторете паролата</label>
-                <input type="password" name="password" placeholder="Потвърдете паролата..." autocomplete="new-password">
+                <input type="password" name="repeatPassword" placeholder="Потвърдете паролата..." autocomplete="new-password">
             </div>
             <div class="form-input pt-30">
-                <input type="submit" name="submit" value="Регистрация">
+                <input type="submit" value="Регистрация">
             </div>
             <span style="color: white;">Имате вече съществуващ профил? <a style="color: lightseagreen;"
-                    href="login.html" class="registration">Вход</a></span>
+                    href="/users/login" class="registration">Вход</a></span>
         </div>
     </form>
 </main>

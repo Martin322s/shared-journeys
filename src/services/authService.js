@@ -2,20 +2,24 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { promisify } from 'util';
 const jwtSign = promisify(jwt.sign);
-import User from '../models/User';
-import { SECRET, SALT_ROUNDS } from '../../config/constants';
+import User from '../models/User.js';
+import { SECRET, SALT_ROUNDS } from '../../config/constants.js';
 
-export const registerUser = async ({ email, password, gender }) => {
-    const userReg = await User.findOne({ email });
+export const registerUser = async (userData) => {
+    const userReg = await User.findOne({ email: userData.email });
+    console.log(userReg);
+    
     if (userReg) {
         throw {
-            message: 'Email already registered!'
+            message: 'User with this email already exists!',
         }
     } else {
         try {
-            if (email !== '' || password !== '' || gender !== '') {
-                const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
-                const user = await User.create({ email, password: hashedPassword, gender });
+            if (!Object.values(userData).some(x => x == '')) {
+                const hashedPassword = await bcrypt.hash(userData.password, SALT_ROUNDS);
+                const user = await User.create({ ...userData, password: hashedPassword });
+                console.log(user);
+                
                 return user;
             } else {
                 throw {
