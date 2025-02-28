@@ -43,7 +43,9 @@ export const registerUser = async (userData) => {
                     ...userData,
                     password: hashedPassword,
                     phone: normalizePhoneNumber(userData.phone),
-                    isVerified: false
+                    isVerified: false,
+                    isDeleted: false,
+                    role: 'user'
                 });
 
                 return user;
@@ -83,7 +85,7 @@ export const loginUser = async ({ email, password }) => {
 }
 
 export const generateToken = async (user) => {
-    const token = jwtSign({ _id: user._id, email: user.email }, SECRET, { expiresIn: '2d' });
+    const token = jwtSign({ _id: user._id, email: user.email, role: user.role }, SECRET, { expiresIn: '2d' });
     return token;
 }
 

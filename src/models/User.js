@@ -6,6 +6,15 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         required: true
     },
+    isDeleted: {
+        type: Boolean,
+        required: true
+    },
+    role: {
+        type: String,
+        required: true,
+        enum: ['user', 'admin']
+    },
     firstName: {
         type: String,
         required: true
