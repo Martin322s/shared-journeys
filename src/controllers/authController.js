@@ -1,10 +1,29 @@
 import express from 'express';
-import { generateToken, registerUser } from '../services/authService.js';
+import { generateToken, loginUser, registerUser } from '../services/authService.js';
 
 const router = express.Router();
 
 router.get('/login', (req, res) => {
     res.render('login', { layout: 'login' });
+});
+
+router.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+    try {
+        if (email !== '' && password !== '') {
+            const user = await loginUser({ email, password });
+            console.log(user);
+            
+            
+            if (typeof user !== 'string') {
+                const token = await generateToken(user);
+                res.cookie('session', token, { httpOnly: true });
+                res.redirect('/');
+            }
+        }
+    } catch (err) {
+        res.render('login', { layout: 'login' });
+    }
 });
 
 router.get('/register', (req, res) => {

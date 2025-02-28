@@ -7,7 +7,6 @@ import { SECRET, SALT_ROUNDS } from '../../config/constants.js';
 
 export const registerUser = async (userData) => {
     const userReg = await User.findOne({ email: userData.email });
-    console.log(userReg);
     
     if (userReg) {
         throw {
@@ -18,7 +17,6 @@ export const registerUser = async (userData) => {
             if (!Object.values(userData).some(x => x == '')) {
                 const hashedPassword = await bcrypt.hash(userData.password, SALT_ROUNDS);
                 const user = await User.create({ ...userData, password: hashedPassword });
-                console.log(user);
                 
                 return user;
             } else {
