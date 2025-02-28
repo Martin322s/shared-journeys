@@ -12,8 +12,6 @@ router.post('/login', async (req, res) => {
     try {
         if (email !== '' && password !== '') {
             const user = await loginUser({ email, password });
-            console.log(user);
-            
             
             if (typeof user !== 'string') {
                 const token = await generateToken(user);
@@ -64,7 +62,6 @@ router.get('/logout', (req, res) => {
 router.get('/profile', async (req, res) => {
     const email = res.locals.email;
     const userData = await getUserData(email);
-    console.log(userData);
 
     res.render('profile', { 
         layout: 'profile', 
