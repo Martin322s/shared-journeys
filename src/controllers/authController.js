@@ -1,30 +1,74 @@
 import express from 'express';
 import { generateToken, getUserData, loginUser, registerUser } from '../services/authService.js';
+import { privateGuardGuest, privateGuardUser } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 
-router.get('/login', (req, res) => {
+function containsOnlySpaces(password) {
+    const onlySpacesRegex = /^\s+$/;
+
+    if (onlySpacesRegex.test(password)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+router.get('/login', privateGuardUser,  (req, res) => {
     res.render('login', { layout: 'login' });
 });
 
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
     try {
-        if (email !== '' && password !== '') {
+        if ((email && password) && (email !== '' && password !== '')) {
+            const emailRegex = new RegExp('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+
+            if (email && !emailRegex.test(email)) {
+                throw {
+                    message: 'Моля, въведете валиден имейл адрес!'
+                }
+            }
+
+            if (containsOnlySpaces(password)) {
+                throw {
+                    message: 'Невалидна парола! Съдържа само интервали.',
+                }
+            }
+
+            if (password.length < 8) {
+                throw {
+                    message: 'Паролата трябва да е с дължина минимум 8 символа!'
+                }
+            }
+
+            if (password && password.includes('script')) {
+                throw {
+                    message: 'Не валиден имейл или парола!'
+                }
+            }
+
             const user = await loginUser({ email, password });
-            
-            if (typeof user !== 'string') {
+
+
+            if (!user?.message) {
                 const token = await generateToken(user);
                 res.cookie('session', token, { httpOnly: true });
                 res.redirect('/');
+            } else {
+                throw user;
+            }
+        } else {
+            throw {
+                message: 'Всички полета са задължителни!'
             }
         }
     } catch (err) {
-        res.render('login', { layout: 'login' });
+        res.render('login', { layout: 'login', error: { message: err.message } });
     }
 });
 
-router.get('/register', (req, res) => {
+router.get('/register', privateGuardUser, (req, res) => {
     res.render('register', { layout: 'register' })
 });
 
@@ -54,18 +98,18 @@ router.post('/register', async (req, res) => {
     }
 });
 
-router.get('/logout', (req, res) => {
+router.get('/logout', privateGuardGuest, (req, res) => {
     res.clearCookie('session');
     res.redirect('/');
 });
 
-router.get('/profile', async (req, res) => {
+router.get('/profile', privateGuardGuest, async (req, res) => {
     const email = res.locals.email;
     const userData = await getUserData(email);
 
-    res.render('profile', { 
-        layout: 'profile', 
-        user: { 
+    res.render('profile', {
+        layout: 'profile',
+        user: {
             firstName: userData.firstName,
             lastName: userData.lastName,
             email: userData.email,
@@ -74,7 +118,7 @@ router.get('/profile', async (req, res) => {
             tripsSubscribedHistory: userData.tripsSubscribedHistory,
             tripsSharedHistory: userData.tripsSharedHistory,
             createdAt: userData.formattedDate
-        } 
+        }
     });
 });
 

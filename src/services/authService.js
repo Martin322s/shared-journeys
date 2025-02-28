@@ -35,15 +35,18 @@ export const loginUser = async ({ email, password }) => {
         const user = await User.findOne({ email });
         const isValid = await bcrypt.compare(password, user.password);
 
+        console.log(isValid);
+        
+
         if (isValid) {
             return user;
         } else {
             throw {
-                message: 'Invalid email or password!'
+                message: 'Невалиден имейл или парола!'
             }
         }
     } catch (err) {
-        return err.message;
+        return err;
     }
 }
 
