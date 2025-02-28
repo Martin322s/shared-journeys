@@ -2,6 +2,10 @@ import mongoose from "mongoose";
 import { format } from 'date-fns';
 
 const userSchema = new mongoose.Schema({
+    isVerified: {
+        type: Boolean,
+        required: true
+    },
     firstName: {
         type: String,
         required: true
@@ -12,7 +16,8 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     phone: {
         type: String,

@@ -7,7 +7,7 @@
     <title>Регистрация - Споделени пътувания</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="shortcut icon" type="image/x-icon" href="assets/img/logo2.png">
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/logo2.png">
 
     <link rel="stylesheet" href="/assets/css/style.css">
     <link rel="stylesheet" href="/assets/css/main.css">
@@ -16,6 +16,53 @@
     <link href="/assets/vendor/aos/aos.css" rel="stylesheet">
     <link href="/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
     <link href="/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+
+    <style>
+        .error-notification {
+            position: fixed;
+            top: 100px;
+            left: 20px;
+            background-color: #ff5252;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 4px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            max-width: 300px;
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out;
+            font-family: Arial, sans-serif;
+            animation: slideIn 0.3s ease-out, fadeOut 0.5s ease-in 4.5s forwards;
+        }
+
+        .error-icon {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -29,6 +76,13 @@
             </div>
         </div>
     </div>
+
+    {{#if error}}
+    <div class="error-notification">
+        <span class="error-icon">⚠️</span>
+        <span class="error-message">{{error.message}}</span>
+    </div>
+    {{/if}}
 
     {{> header}}
 

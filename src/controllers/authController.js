@@ -1,5 +1,5 @@
 import express from 'express';
-import { generateToken, getUserData, loginUser, registerUser } from '../services/authService.js';
+import { generateToken, getUserData, loginUser, registerUser, sendVerificationEmail } from '../services/authService.js';
 import { privateGuardGuest, privateGuardUser } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
@@ -14,7 +14,7 @@ function containsOnlySpaces(password) {
     }
 }
 
-router.get('/login', privateGuardUser,  (req, res) => {
+router.get('/login', privateGuardUser, (req, res) => {
     res.render('login', { layout: 'login' });
 });
 
@@ -73,28 +73,72 @@ router.get('/register', privateGuardUser, (req, res) => {
 });
 
 router.post('/register', async (req, res) => {
-    const profilePicture = req.files.profilePicture;
-    const base64Image = profilePicture.data.toString('base64');
-    const imageWithPrefix = `data:${profilePicture.mimetype};base64,${base64Image}`;
-
-    const userData = {
-        ...req.body,
-        profilePicture: imageWithPrefix
-    }
-
     try {
-        if (userData.password == '' || userData.repeatPassword == '' && (userData.password || userData.repeatPassword)) {
+        const allowedImageFormats = ['image/jpeg', 'image/jpg', 'image/png'];
+
+        if (Object.values(req.body).some(x => x == '')) {
             throw {
-                message: 'Passwords missmatch detected!'
+                message: 'Всички полета са задължителни!'
             }
+        }
+
+        const profilePicture = req.files.profilePicture;
+
+        if (!allowedImageFormats.includes(profilePicture.mimetype)) {
+            throw {
+                message: 'Невалиден формат на снимката'
+            }
+        }
+
+        const base64Image = profilePicture.data.toString('base64');
+        const imageWithPrefix = `data:${profilePicture.mimetype};base64,${base64Image}`;
+
+        const userData = {
+            ...req.body,
+            profilePicture: imageWithPrefix
+        }
+
+        const emailRegex = new RegExp('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$');
+        if (!emailRegex.test(userData.email)) {
+            throw {
+                message: 'Моля, въведете валиден имейл адрес!'
+            }
+        }
+
+        if (userData.password !== userData.repeatPassword) {
+            throw {
+                message: 'Паролите не съвпадат. Моля, въведете ги отново!'
+            }
+        }
+
+        if (userData.password.length < 8 || userData.repeatPassword.length < 8) {
+            throw {
+                message: 'Паролата трябва да е с дължина минимум 8 символа!'
+            }
+        }
+
+        const phoneRegex = new RegExp('^\\s*0\\s*8\\s*[0-9\\s]{8,15}$');
+
+        if (!phoneRegex.test(userData.phone)) {
+            throw {
+                message: 'Моля, въведете валиден български телефонен номер (10 цифри, започващ с 08)!'
+            }
+        }
+
+        const user = await registerUser(userData);
+
+        if (!user.message) {
+            const verificationLink = `http://localhost:5000/users/verify-email?email=${user.email}`;
+            await sendVerificationEmail(user, verificationLink);
+            res.render('login', {
+                layout: 'login',
+                error: { message: 'Регистрацията е успешна! Моля, проверете вашия имейл за потвърждение.' }
+            })
         } else {
-            const user = await registerUser(userData);
-            const token = await generateToken(user);
-            res.cookie('session', token, { httpOnly: true });
-            res.redirect('/');
+            throw user;
         }
     } catch (error) {
-        res.render('register', { layout: 'register' });
+        res.render('register', { layout: 'register', error: { message: error.message } });
     }
 });
 
@@ -120,6 +164,31 @@ router.get('/profile', privateGuardGuest, async (req, res) => {
             createdAt: userData.formattedDate
         }
     });
+});
+
+router.get('/verify-email', async (req, res) => {
+    const { email } = req.query;
+
+    try {
+        const user = await getUserData(email);
+
+        if (!user.email) {
+            throw new Error('Невалиден имейл за потвърждение.');
+        }
+
+        user.isVerified = true;
+        await user.save();
+
+        res.render('login', {
+            layout: 'login',
+            error: { message: 'Вашият имейл беше потвърден успешно! Може да влезете в профила си.' }
+        });
+    } catch (error) {
+        res.render('login', {
+            layout: 'login',
+            error: { message: 'Линкът за потвърждение е невалиден или е изтекъл!' }
+        });
+    }
 });
 
 export default router;
