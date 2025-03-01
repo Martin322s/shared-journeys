@@ -152,7 +152,6 @@ router.get('/profile', privateGuardGuest, async (req, res) => {
     const email = res.locals.email;
     const userData = await getUserData(email);
     const createdRoads = await myOffers(req.user);
-    console.log(userData.tripsSharedHistory);
     
 
     res.render('profile', {
