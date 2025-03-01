@@ -1,5 +1,5 @@
 import express from 'express';
-import { createTrip, getAll } from '../services/tripService.js';
+import { addOffer, createTrip, getAll } from '../services/tripService.js';
 
 const router = express.Router();
 
@@ -28,7 +28,8 @@ router.post('/journey-offer', async (req, res) => {
         const _ownerId = req.user;
 
         const roadData = { ...req.body, carImage: imageWithPrefix, _ownerId, buddies: [] };
-        await createTrip(roadData);
+        const newTrip = await createTrip(roadData);
+        await addOffer(newTrip, req.user);
         res.redirect('/roads/road-offers');
     } catch (err) {
         res.render('trip-create', { layout: 'trip-create', error: { message: err.message } });

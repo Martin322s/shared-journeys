@@ -1,6 +1,7 @@
 import express from 'express';
 import { generateToken, getUserData, loginUser, registerUser, sendVerificationEmail } from '../services/authService.js';
 import { privateGuardGuest, privateGuardUser } from '../middlewares/authMiddleware.js';
+import { myOffers } from '../services/tripService.js';
 
 const router = express.Router();
 
@@ -150,6 +151,9 @@ router.get('/logout', privateGuardGuest, (req, res) => {
 router.get('/profile', privateGuardGuest, async (req, res) => {
     const email = res.locals.email;
     const userData = await getUserData(email);
+    const createdRoads = await myOffers(req.user);
+    console.log(userData.tripsSharedHistory);
+    
 
     res.render('profile', {
         layout: 'profile',
@@ -161,8 +165,9 @@ router.get('/profile', privateGuardGuest, async (req, res) => {
             phone: userData.phone,
             tripsSubscribedHistory: userData.tripsSubscribedHistory,
             tripsSharedHistory: userData.tripsSharedHistory,
-            createdAt: userData.formattedDate
-        }
+            createdAt: userData.formattedDate,
+        },
+        createdRoads
     });
 });
 

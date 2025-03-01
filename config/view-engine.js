@@ -10,7 +10,11 @@ export const initViewEngine = (app) => {
         extname: 'hbs',
         defaultLayout: false,
         layoutsDir: path.resolve(__dirname, "..", "src", "views", "layouts"),
-        partialsDir: path.resolve(__dirname, "..", "src", "views", "partials")
+        partialsDir: path.resolve(__dirname, "..", "src", "views", "partials"),
+        runtimeOptions: {
+            allowProtoPropertiesByDefault: true,
+            allowProtoMethodsByDefault: true
+        }
     }));
     app.set('view engine', 'hbs');
     app.set("views", path.resolve(__dirname, "..", "src", "views"));

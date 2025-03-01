@@ -33,21 +33,21 @@
             </div>
         </div>
 
-        <!-- Дясна колона - Пътувания -->
         <div class="rides-section">
-            <!-- Споделени обяви -->
             <div class="rides-column">
                 <div class="rides-header">Споделени обяви</div>
 
+                {{#each createdRoads}}
                 <div class="ride-card">
-                    <div class="ride-date">15 Февруари 2024</div>
-                    <div class="ride-title">София → Варна</div>
+                    <div class="ride-date">{{date}}</div>
+                    <div class="ride-title">{{startPoint}} → {{endPoint}}</div>
                     <div class="ride-details">
-                        Заминаване: 08:00 ч.<br>
-                        Свободни места: 3<br>
-                        Цена: 25 лв.
+                        Заминаване: {{time}} ч.<br>
+                        Свободни места: {{seats}}<br>
+                        Цена: {{price}} лв.
                     </div>
                 </div>
+                {{/each}}
 
             </div>
 
