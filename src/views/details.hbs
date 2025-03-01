@@ -4,12 +4,12 @@
             <div class="destination">
                 <div>
                     <span class="icon"><i class="fas fa-map-marked-alt"></i></span>
-                    <h5> От <span>Пловдив, ул. Марица № 32</span> до <span>Бургас, ул. Иван Шишманов № 43</span>
+                    <h5> От <span>{{offerDetails.startPoint}}</span> до <span>{{offerDetails.endPoint}}</span>
                     </h5>
                 </div>
                 <div>
                     <span class="icon"><i class="fas fa-calendar-alt"></i></span>
-                    <h5> <span>2021-07-07</span> в <span>10:40</span> </h5>
+                    <h5> <span>{{offerDetails.date}}</span> в <span>{{offerDetails.time}}ч.</span> </h5>
                 </div>
             </div>
             <p class="line"></p>
@@ -17,45 +17,51 @@
                 <i class="fas fa-users buddies"></i>
                 <h5>Хора, записани за пътуването</h5>
                 <div>
-                    <!-- if there are joined buddies for the current trip separate them with comma and space", " -->
-                    <p>Христина Иванова - 0891234567 - hristina@abv.bg</p>
-                    <p>Христина Иванова - 0891234567 - hristina@abv.bg</p>
-                    <p>Христина Иванова - 0891234567 - hristina@abv.bg</p>
-                    <p>Христина Иванова - 0891234567 - hristina@abv.bg</p>
-                    <!-- If not display: -->
+                    {{#if offerDetails.buddies}}
+                    {{#each buddies}}
+                    <p>{{firstName}} {{lastName}} - {{phone}} - {{email}}</p>
+                    {{/each}}
+                    {{else}}
                     <p>В момента, няма хора запазили място...</p>
+                    {{/if}}
                 </div>
-                <h5>Шофьор: <span>Христина Иванова - 0891234567 - hristina@abv.bg</span> </h5>
+                <h5>Шофьор: <span>{{offerDetails._ownerId.firstName}} {{offerDetails._ownerId.lastName}} -
+                        {{offerDetails._ownerId.phone}} - {{offerDetails._ownerId.email}}</span> </h5>
             </div>
             <p class="line"></p>
-            <h5 class="brand">Автомобил: <span class="lead">Mercedes Benz A316</span></h5>
+            <h5 class="brand">Автомобил: <span class="lead">{{offerDetails.carBrand}}</span></h5>
             <div class="trip-info">
                 <div>
-                    <img class="img-fluid rounded"
-                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTL0JzaLEO3u74JSvaqUjlGQIdfGD-1h1Rc-g&s"
-                        alt="car-image">
+                    <img class="img-fluid rounded" src="{{offerDetails.carImage}}" alt="car-image">
                 </div>
                 <div class="trip-desc">
                     <h5>Информация за пътуването</h5>
-                    <textarea class="lead" disabled>Описание на подробната информация за това пътуване</textarea>
-                    <h5>Цена: <span class="lead">25</span> лв. / човек</h5>
+                    <textarea class="lead" disabled>{{offerDetails.description}}</textarea>
+                    <h5>Цена: <span class="lead">{{offerDetails.price}}</span> лв. / човек</h5>
 
-                    <!-- if there are no logged in user do not show div with class actions  -->
+                    {{#if user}}
                     <div class="actions">
-                        <!-- Only for logged user and creator to this trip -->
-                        <a href="" class="btn btn-danger">Изтриване обявата</a>
-                        <a href="/roads/edit-offer" class="btn btn-warning">Редактиране на обявата</a>
+                        {{#if isOwner}}
+                        <a href="/roads/delete-offer/{{offerDetails.id}}" class="btn btn-danger">Изтриване обявата</a>
+                        <a href="/roads/edit-offer/{{offerDetails.id}}" class="btn btn-warning">Редактиране на
+                            обявата</a>
 
-                        <!-- logged in user with available seats -->
-                        <a href="" class="btn btn-join">Присъедини се, [ 1 ] места остават!</a>
+                        {{else}}
+                        {{#if availableSeats}}
+                        <a href="/roads/take-seat/{{offerDetails.id}}" class="btn btn-join">Присъедини се, [
+                            {{offerDetails.seats}} ] места остават!</a>
+                        {{/if}}
 
-                        <!-- logged in user and has already joined the trip  -->
+                        {{#if hasJoined}}
                         <span class="btn btn-info">Мястото ви е запазено!</span>
+                        {{/if}}
 
-                        <!-- logged in user with no available seats -->
+                        {{#if noSeats}}
                         <span class="btn btn-secondary">Няма свободни места!</span>
+                        {{/if}}
+                        {{/if}}
                     </div>
-
+                    {{/if}}
                 </div>
             </div>
         </div>

@@ -1,5 +1,7 @@
 import express from 'express';
-import { addOffer, createTrip, getAll } from '../services/tripService.js';
+import { addOffer, createTrip, getAll, getAllPassagers, getOne } from '../services/tripService.js';
+import { getUserData } from '../services/authService.js';
+import Trip from '../models/Trip.js';
 
 const router = express.Router();
 
@@ -47,7 +49,7 @@ router.post('/journey-offer', async (req, res) => {
                 message: 'Невалида стойност при свободните места или таксата за пътуване!'
             }
         }
-        
+
         if (req.files == null) {
             throw {
                 message: 'Моля, изберете изображение на автомобила!'
@@ -76,12 +78,53 @@ router.post('/journey-offer', async (req, res) => {
     }
 });
 
-router.get('/offer-details', (req, res) => {
-    res.render('details', { layout: 'details' });
+router.get('/offer-details/:offerId', async (req, res) => {
+    const offerId = req.params.offerId;
+    const offerDetails = await getOne(offerId);
+    const passagers = await getAllPassagers(offerId);
+
+    res.render('details', {
+        layout: 'details',
+        offerDetails, isOwner: req.user == offerDetails._ownerId.id,
+        noSeats: offerDetails.seats == 0 && !offerDetails.buddies.includes(req.user),
+        hasJoined: offerDetails.buddies.includes(req.user),
+        availableSeats: offerDetails.seats > 0,
+        buddies: passagers.buddies
+    });
 });
 
 router.get('/edit-offer', (req, res) => {
     res.render('trip-edit', { layout: 'trip-edit' });
+});
+
+router.get('/take-seat/:offerId', async (req, res) => {
+    const userEmail = res.locals.email;
+    const offerId = req.params.offerId;
+
+    const offer = await getOne(offerId);
+    const user = await getUserData(userEmail);
+
+    const isBuddy = offer.buddies.includes(user.id);
+
+    if (!isBuddy) {
+        const trip = await Trip.findOne({ _id: offerId });
+
+        if (!trip || trip.seats <= 0) {
+            return res.redirect(`/roads/offer-details/${trip.id}`);
+        }
+
+        const updatedTrip = await Trip.findOneAndUpdate(
+            { _id: offerId, seats: { $gt: 0 } },
+            { $inc: { seats: -1 }, $push: { buddies: user.id } },
+            { new: true }
+        );
+
+        if (!updatedTrip) {
+            return res.redirect(`/roads/offer-details/${trip.id}`);
+        }
+
+        return res.redirect(`/roads/offer-details/${trip.id}`);
+    }
 });
 
 

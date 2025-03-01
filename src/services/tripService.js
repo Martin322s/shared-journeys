@@ -3,7 +3,7 @@ import User from "../models/User.js";
 
 export const createTrip = async (data) => await Trip.create(data);
 export const getAll = async () => await Trip.find().lean();
-export const getOne = async (tripId) => await Trip.findById({ _id: tripId }).populate('owner');
+export const getOne = async (tripId) => await Trip.findById({ _id: tripId }).populate('_ownerId');
 export const deleteTrip = async (tripId) => await Trip.findByIdAndDelete({ _id: tripId });
 export const editTrip = async (tripId, tripData) => await Trip.findByIdAndUpdate({ _id: tripId }, tripData);
 export const getAuthor = async (authorId) => await User.findById(authorId);
