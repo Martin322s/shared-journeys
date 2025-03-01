@@ -1,5 +1,5 @@
-import Trip from "../models/Trip";
-import User from "../models/User";
+import Trip from "../models/Trip.js";
+import User from "../models/User.js";
 
 export const createTrip = async (data) => await Trip.create(data);
 export const getAll = async () => await Trip.find().lean();

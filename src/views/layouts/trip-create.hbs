@@ -17,11 +17,63 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <link rel="stylesheet" href="/assets/static/css/style.css">
     <title>Създай оферта - Споделени пътувания</title>
+    <style>
+        .error-notification {
+            position: fixed;
+            top: 100px;
+            left: 20px;
+            background-color: #ff5252;
+            color: white;
+            padding: 15px 20px;
+            border-radius: 4px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            max-width: 300px;
+            opacity: 1;
+            transition: opacity 0.5s ease-in-out;
+            font-family: Arial, sans-serif;
+            animation: slideIn 0.3s ease-out, fadeOut 0.5s ease-in 4.5s forwards;
+        }
 
+        .error-icon {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(-50px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+
+            to {
+                opacity: 0;
+                visibility: hidden;
+            }
+        }
+    </style>
 
 </head>
 
 <body>
+    {{#if error}}
+    <div class="error-notification">
+        <span class="error-icon">⚠️</span>
+        <span class="error-message">{{error.message}}</span>
+    </div>
+    {{/if}}
+    
     {{>header}}
 
     {{{body}}}

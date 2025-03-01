@@ -3,16 +3,16 @@
         <div class="container offer-trip">
             <h1>Споделяне на обява за пътуване</h1>
             <div>
-                <form action="" method="">
+                <form action="/roads/journey-offer" method="POST" enctype="multipart/form-data">
                     <div class="offer-label">
                         <label for="startPoint"> <i class="fas fa-map-marker-alt"></i> Начална точка </label>
                         <label for="endPoint"> <i class="fas fa-map-marker-alt"></i> Крайна точка</label>
                     </div>
                     <div class="form-group offer-input">
                         <input type="text" class="form-control-2" id="startPoint"
-                            placeholder="гр. София, Студентски град град №..." name="" value="">
+                            placeholder="гр. София, Студентски град град №..." name="startPoint" value="">
                         <input type="text" class="form-control-2" id="endPoint" placeholder="гр. Бургас, ул. ..."
-                            name="" value="">
+                            name="endPoint" value="">
                     </div>
                     <div class="offer-label">
                         <label for="date"> <i class="far fa-calendar-alt"></i> Дата на пътуване</label>
@@ -28,22 +28,22 @@
                         <label for="carBrand">Марка на автомобила</label>
                     </div>
                     <div class="form-group offer-input">
-                        <input type="text" class="form-control-2" id="carImage" placeholder="https://..." name=""
+                        <input type="file" class="form-control-2" id="carImage" name="carImage"
                             value="">
-                        <input type="text" class="form-control-2" id="carBrand" placeholder="BMW X6" name="" value="">
+                        <input type="text" class="form-control-2" id="carBrand" placeholder="BMW X6" name="carBrand" value="">
                     </div>
                     <div class="offer-label">
                         <label for="seats">Свободни места</label>
                         <label for="price">Такса за пътуващи</label>
                     </div>
                     <div class="form-group offer-input">
-                        <input type="text" class="form-control-2" id="seats" placeholder="4" name="" value="">
-                        <input type="text" class="form-control-2" id="price" placeholder="25" name="" value="">
+                        <input type="text" class="form-control-2" id="seats" placeholder="4" name="seats" value="">
+                        <input type="text" class="form-control-2" id="price" placeholder="25" name="price" value="">
                     </div>
                     <div class="form-group">
                         <label for="description">Описание на обявата:</label>
                         <textarea class="form-control" id="description"
-                            placeholder="Подробна информация за пътуването..." name=""></textarea>
+                            placeholder="Подробна информация за пътуването..." name="description"></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary">Сподели</button>
                 </form>

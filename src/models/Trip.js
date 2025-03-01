@@ -37,7 +37,7 @@ const tripSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    owner: {
+    _ownerId: {
         type: mongoose.Types.ObjectId,
         ref: 'User'
     },
@@ -45,7 +45,7 @@ const tripSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: 'User'
     }]
-});
+}, { timestamps: true });
 
 const Trip = mongoose.model('Trip', tripSchema);
 
