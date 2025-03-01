@@ -14,10 +14,13 @@
 <!-- Courses Start -->
 <div class="container-xxl py-6">
     <div class="container">
+        {{#if roadOffers}}
         <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
             <h1 class="display-6 mb-4">Открийте вашето следващо приключение:</h1>
         </div>
+        {{/if}}
         <div class="row g-4 justify-content-center">
+            {{#if roadOffers}}
             {{#each roadOffers}}
             <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
                 <div class="courses-item d-flex flex-column bg-light overflow-hidden">
@@ -36,6 +39,9 @@
                 </div>
             </div>
             {{/each}}
+            {{else}}
+            <h1 style="text-align: center;">Няма публикувани обяви!</h1>
+            {{/if}}
         </div>
     </div>
 </div>

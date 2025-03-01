@@ -87,7 +87,7 @@ router.post('/register', async (req, res) => {
 
         if (!allowedImageFormats.includes(profilePicture.mimetype)) {
             throw {
-                message: 'Невалиден формат на снимката'
+                message: 'Невалиден формат на снимката!'
             }
         }
 
