@@ -149,17 +149,20 @@ router.get('/logout', privateGuardGuest, (req, res) => {
     res.redirect('/');
 });
 
-router.get('/profile', privateGuardGuest, async (req, res) => {
-    const email = res.locals.email;
+router.get('/profile/:userEmail', privateGuardGuest, async (req, res) => {
+    const email = req.params.userEmail;
     const userData = await getUserData(email);
-    const createdRoads = await myOffers(req.user);
+    const createdRoads = await myOffers(userData._id);
 
-    const driver = await User.findById(req.user)
+    const driver = await User.findById(userData._id)
         .populate({
             path: 'tripsSubscribedHistory',
             populate: { path: '_ownerId', select: 'firstName lastName email phone' }
         })
         .exec();
+
+        console.log(req.user, userData._id);
+        
 
     res.render('profile', {
         layout: 'profile',
@@ -174,7 +177,9 @@ router.get('/profile', privateGuardGuest, async (req, res) => {
             createdAt: userData.formattedDate,
         },
         driver: driver,
-        createdRoads
+        createdRoads,
+        follow: req.user !== userData._id.toString() && !userData.following.includes(userData._id),
+        message: req.user !== userData._id.toString() && userData.following.includes(userData._id)
     });
 });
 
@@ -201,6 +206,12 @@ router.get('/verify-email', async (req, res) => {
             error: { message: 'Линкът за потвърждение е невалиден или е изтекъл!' }
         });
     }
+});
+
+router.get('/follow-user/:followedUser/:followingUser', (req, res) => {
+    const followedUser = req.params.followedUser; // followed user - add id to followers
+    const followingUser = req.params.followingUser; // following user - add id to following
+
 });
 
 export default router;

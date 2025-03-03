@@ -189,6 +189,47 @@
             line-height: 1.6;
         }
 
+        .profile-buttons {
+            display: flex;
+            gap: 12px;
+            width: 100%;
+            margin: 10px 0 15px 0;
+        }
+
+        .btn-follow,
+        .btn-message {
+            flex: 1;
+            padding: 10px 15px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border: none;
+            text-decoration: none !important;
+            display: block;
+        }
+
+        .btn-follow {
+            background-color: #512905 !important;
+            color: white !important;
+        }
+
+        .btn-message {
+            background-color: #ffca3a !important;
+            color: #3d1c05 !important;
+        }
+
+        .btn-follow:hover {
+            background-color: #bd4c05 !important;
+        }
+
+        .btn-message:hover {
+            background-color: #e0b838 !important;
+        }
+
         @media (max-width: 1200px) {
             .container {
                 grid-template-columns: 1fr;

@@ -45,7 +45,9 @@ export const registerUser = async (userData) => {
                     phone: normalizePhoneNumber(userData.phone),
                     isVerified: false,
                     isDeleted: false,
-                    role: 'user'
+                    role: 'user',
+                    followers: [],
+                    following: []
                 });
 
                 return user;

@@ -47,6 +47,14 @@ const userSchema = new mongoose.Schema({
     tripsSubscribedHistory: [{
         type: mongoose.Types.ObjectId,
         ref: 'Trip'
+    }],
+    followers: [{
+        type: mongoose.Types.ObjectId,
+        ref: 'User'
+    }],
+    following: [{
+        type: mongoose.Types.ObjectId,
+        ref: 'User'
     }]
 }, { timestamps: true });
 

@@ -4,6 +4,14 @@
             <div class="profile-header">
                 <img src="{{user.profilePicture}}" alt="Профилна снимка" class="profile-image">
                 <h1 class="profile-name">{{user.firstName}} {{user.lastName}}</h1>
+                <div class="profile-buttons">
+                    {{#if follow}}
+                    <a href="/users/" class="btn-follow">Последвай</a>
+                    {{/if}}
+                    {{#if message}}
+                    <a href="#" class="btn-message">Съобщение</a>
+                    {{/if}}
+                </div>
             </div>
 
             <div class="profile-stats">

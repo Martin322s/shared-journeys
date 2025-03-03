@@ -25,7 +25,7 @@
                     <p>В момента, няма хора запазили място...</p>
                     {{/if}}
                 </div>
-                <h5>Шофьор: <span>{{offerDetails._ownerId.firstName}} {{offerDetails._ownerId.lastName}} -
+                <h5>Шофьор: <span><a href="/users/profile/{{offerDetails._ownerId.email}}">{{offerDetails._ownerId.firstName}} {{offerDetails._ownerId.lastName}}</a> -
                         {{offerDetails._ownerId.phone}} - {{offerDetails._ownerId.email}}</span> </h5>
             </div>
             <p class="line"></p>
