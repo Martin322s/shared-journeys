@@ -18,9 +18,9 @@ function containsOnlySpaces(password) {
 
 router.get('/login', privateGuardUser, (req, res) => {
     if (req.query.error == 'jwt expired') {
-        return res.render('login', { layout: 'login', error: { message: 'Вашата сесия е изтекла. Моля, влезте отново!' } }); 
+        return res.render('login', { layout: 'login', error: { message: 'Вашата сесия е изтекла. Моля, влезте отново!' } });
     }
-    
+
     res.render('login', { layout: 'login' });
 });
 
@@ -185,7 +185,8 @@ router.get('/profile/:userEmail', privateGuardGuest, async (req, res) => {
         follow: req.user !== userData._id.toString() && !userData.followers.includes(req.user),
         message: req.user !== userData._id.toString() && userData.followers.includes(req.user),
         followedUser: userData.email,
-        followingUser: req.email
+        followingUser: req.email,
+        rating: 5
     });
 });
 
@@ -215,19 +216,19 @@ router.get('/verify-email', async (req, res) => {
 });
 
 router.get('/follow-user/:followedUser/:followingUser', async (req, res) => {
-    const followedUser = req.params.followedUser; // followed user - add id to followers
-    const followingUser = req.params.followingUser; // following user - add id to following
+    const followedUser = req.params.followedUser;
+    const followingUser = req.params.followingUser;
 
-    const followedUserData = await getUserData(followedUser); // Sofroniev - profile
-    const followingUserData = await getUserData(followingUser); // Ivanov - loggedUser
+    const followedUserData = await getUserData(followedUser);
+    const followingUserData = await getUserData(followingUser);
 
-    const newUserFollwed = await User.findByIdAndUpdate(
+    await User.findByIdAndUpdate(
         { _id: followedUserData.id },
         { $addToSet: { followers: followingUserData._id } },
         { new: true }
     );
 
-    const newUserFollowing = await User.findByIdAndUpdate(
+    await User.findByIdAndUpdate(
         { _id: followingUserData._id },
         { $addToSet: { following: followedUserData._id } },
         { new: true }
@@ -235,5 +236,10 @@ router.get('/follow-user/:followedUser/:followingUser', async (req, res) => {
 
     res.redirect(`/users/profile/${followedUserData.email}`);
 });
+
+router.get('/profiles', async (req, res) => {
+    const users = await User.find().lean();
+    res.render('drivers', { layout: 'drivers', users });
+})
 
 export default router;

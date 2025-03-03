@@ -18,76 +18,85 @@
                     <a href="#" class="btn-message">Съобщение</a>
                     {{/if}}
                 </div>
+                <div class="star-rating-wrapper">
+                    <div class="star-rating">
+                        <a href="#5" class="star {{#if (gte rating 5)}}star-active-rating{{/if}}">★</a>
+                        <a href="#4" class="star {{#if (gte rating 4)}}star-active-rating{{/if}}">★</a>
+                        <a href="#3" class="star {{#if (gte rating 3)}}star-active-rating{{/if}}">★</a>
+                        <a href="#2" class="star {{#if (gte rating 2)}}star-active-rating{{/if}}">★</a>
+                        <a href="#1" class="star {{#if (gte rating 1)}}star-active-rating{{/if}}">★</a>
+                    </div>
+                    <p style="text-align: center;">Рейтинг: {{rating}}</p>
+                </div>
+
+                <div class="profile-stats">
+                    <div class="stat-card">
+                        <div class="stat-number">{{user.tripsSubscribedHistory.length}}</div>
+                        <div class="stat-label">Записани пътувания</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">{{user.tripsSharedHistory.length}}</div>
+                        <div class="stat-label">Споделени обяви</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">{{user.followers.length}}</div>
+                        <div class="stat-label">Последователи</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-number">{{user.following.length}}</div>
+                        <div class="stat-label">Последвани</div>
+                    </div>
+                </div>
+
+                <div class="profile-details">
+                    <div class="detail-item">
+                        <span class="detail-label">Имейл:</span>
+                        <span class="detail-value">{{user.email}}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Телефон:</span>
+                        <span class="detail-value">{{user.phone}}</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">Регистриран от:</span>
+                        <span class="detail-value">{{user.createdAt}}</span>
+                    </div>
+                </div>
             </div>
 
-            <div class="profile-stats">
-                <div class="stat-card">
-                    <div class="stat-number">{{user.tripsSubscribedHistory.length}}</div>
-                    <div class="stat-label">Записани пътувания</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">{{user.tripsSharedHistory.length}}</div>
-                    <div class="stat-label">Споделени обяви</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">{{user.followers.length}}</div>
-                    <div class="stat-label">Последователи</div>
-                </div>
-                <div class="stat-card">
-                    <div class="stat-number">{{user.following.length}}</div>
-                    <div class="stat-label">Последвани</div>
-                </div>
-            </div>
+            <div class="rides-section">
+                <div class="rides-column">
+                    <div class="rides-header">Споделени обяви</div>
 
-            <div class="profile-details">
-                <div class="detail-item">
-                    <span class="detail-label">Имейл:</span>
-                    <span class="detail-value">{{user.email}}</span>
+                    {{#each createdRoads}}
+                    <div class="ride-card">
+                        <div class="ride-date">{{date}}</div>
+                        <div class="ride-title">{{startPoint}} → {{endPoint}}</div>
+                        <div class="ride-details">
+                            Заминаване: {{time}} ч.<br>
+                            Свободни места: {{seats}}<br>
+                            Цена: {{price}} лв.
+                        </div>
+                    </div>
+                    {{/each}}
+
                 </div>
-                <div class="detail-item">
-                    <span class="detail-label">Телефон:</span>
-                    <span class="detail-value">{{user.phone}}</span>
-                </div>
-                <div class="detail-item">
-                    <span class="detail-label">Регистриран от:</span>
-                    <span class="detail-value">{{user.createdAt}}</span>
+
+                <div class="rides-column">
+                    <div class="rides-header">Записани пътувания</div>
+                    {{#each driver.tripsSubscribedHistory}}
+                    <div class="ride-card">
+                        <div class="ride-date">{{date}}</div>
+                        <div class="ride-title">{{startPoint}} → {{endPoint}}</div>
+                        <div class="ride-details">
+                            Заминаване: {{time}} ч.<br>
+                            Шофьор: {{_ownerId.firstName}} {{_ownerId.lastName}}<br>
+                            Цена: {{price}} лв.
+                        </div>
+                    </div>
+                    {{/each}}
+
                 </div>
             </div>
         </div>
-
-        <div class="rides-section">
-            <div class="rides-column">
-                <div class="rides-header">Споделени обяви</div>
-
-                {{#each createdRoads}}
-                <div class="ride-card">
-                    <div class="ride-date">{{date}}</div>
-                    <div class="ride-title">{{startPoint}} → {{endPoint}}</div>
-                    <div class="ride-details">
-                        Заминаване: {{time}} ч.<br>
-                        Свободни места: {{seats}}<br>
-                        Цена: {{price}} лв.
-                    </div>
-                </div>
-                {{/each}}
-
-            </div>
-
-            <div class="rides-column">
-                <div class="rides-header">Записани пътувания</div>
-                {{#each driver.tripsSubscribedHistory}}
-                <div class="ride-card">
-                    <div class="ride-date">{{date}}</div>
-                    <div class="ride-title">{{startPoint}} → {{endPoint}}</div>
-                    <div class="ride-details">
-                        Заминаване: {{time}} ч.<br>
-                        Шофьор: {{_ownerId.firstName}} {{_ownerId.lastName}}<br>
-                        Цена: {{price}} лв.
-                    </div>
-                </div>
-                {{/each}}
-
-            </div>
-        </div>
-    </div>
 </main>
