@@ -25,6 +25,49 @@ router.get('/contacts', (req, res) => {
     res.render('contacts', { layout: 'contacts' });
 });
 
+router.post('/contacts', async (req, res) => {
+    const { name, email, subject, message } = req.body;
+
+    const SERVICE_ID = 'service_m5m75hf';
+    const TEMPLATE_ID = 'template_41v8civ';
+    const PUBLIC_KEY = 'LTHT5SFyCsSE4GRm5';
+    const ACCESS_TOKEN = '7qrA_ZxWmHTbEksk44nge';
+
+    const templateParams = {
+        to_email: email,
+        to_name: name,
+        to_subject: subject,
+        to_message: message,
+    };
+
+    try {
+        const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                service_id: SERVICE_ID,
+                template_id: TEMPLATE_ID,
+                user_id: PUBLIC_KEY,
+                accessToken: ACCESS_TOKEN,
+                template_params: templateParams
+            })
+        });
+
+        if (!response.ok) {
+            throw new Error('Неуспешно изпращане на имейл.');
+        }
+
+        console.log('Имейл, изпратен успешно!');
+    } catch (error) {
+        console.error('Грешка при изпращане на имейл:', error.message);
+    }
+
+    res.redirect('/roads/contacts');
+
+});
+
 router.get('/journey-offer', (req, res) => {
     res.render('trip-create', { layout: 'trip-create' });
 });
