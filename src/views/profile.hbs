@@ -9,7 +9,7 @@
             <div class="profile-stats">
                 <div class="stat-card">
                     <div class="stat-number">{{user.tripsSubscribedHistory.length}}</div>
-                    <div class="stat-label">Завършени пътувания</div>
+                    <div class="stat-label">Записани пътувания</div>
                 </div>
                 <div class="stat-card">
                     <div class="stat-number">{{user.tripsSharedHistory.length}}</div>
@@ -51,19 +51,19 @@
 
             </div>
 
-            <!-- Записани пътувания -->
             <div class="rides-column">
                 <div class="rides-header">Записани пътувания</div>
-
+                {{#each driver.tripsSubscribedHistory}}
                 <div class="ride-card">
-                    <div class="ride-date">20 Февруари 2024</div>
-                    <div class="ride-title">Варна → София</div>
+                    <div class="ride-date">{{date}}</div>
+                    <div class="ride-title">{{startPoint}} → {{endPoint}}</div>
                     <div class="ride-details">
-                        Заминаване: 07:30 ч.<br>
-                        Шофьор: Петър Петров<br>
-                        Цена: 25 лв.
+                        Заминаване: {{time}} ч.<br>
+                        Шофьор: {{_ownerId.firstName}} {{_ownerId.lastName}}<br>
+                        Цена: {{price}} лв.
                     </div>
                 </div>
+                {{/each}}
 
             </div>
         </div>

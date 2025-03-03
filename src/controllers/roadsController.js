@@ -2,6 +2,7 @@ import express from 'express';
 import { addOffer, createTrip, getAll, getAllPassagers, getOne } from '../services/tripService.js';
 import { getUserData } from '../services/authService.js';
 import Trip from '../models/Trip.js';
+import User from '../models/User.js';
 
 const router = express.Router();
 
@@ -116,6 +117,12 @@ router.get('/take-seat/:offerId', async (req, res) => {
         const updatedTrip = await Trip.findOneAndUpdate(
             { _id: offerId, seats: { $gt: 0 } },
             { $inc: { seats: -1 }, $push: { buddies: user.id } },
+            { new: true }
+        );
+
+        await User.findByIdAndUpdate(
+            { _id: user.id },
+            { $addToSet: { tripsSubscribedHistory: offerId } },
             { new: true }
         );
 
