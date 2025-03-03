@@ -161,8 +161,8 @@ router.get('/profile/:userEmail', privateGuardGuest, async (req, res) => {
         })
         .exec();
 
-        console.log(req.user, userData._id);
-        
+    console.log( userData.followers.includes(req.user));
+
 
     res.render('profile', {
         layout: 'profile',
@@ -175,11 +175,16 @@ router.get('/profile/:userEmail', privateGuardGuest, async (req, res) => {
             tripsSubscribedHistory: userData.tripsSubscribedHistory,
             tripsSharedHistory: userData.tripsSharedHistory,
             createdAt: userData.formattedDate,
+            followers: userData.followers,
+            following: userData.following
         },
         driver: driver,
         createdRoads,
-        follow: req.user !== userData._id.toString() && !userData.following.includes(userData._id),
-        message: req.user !== userData._id.toString() && userData.following.includes(userData._id)
+        notCurrentUser: !(req.params.userEmail == req.email),
+        follow: req.user !== userData._id.toString() && !userData.followers.includes(req.user),
+        message: req.user !== userData._id.toString() && userData.followers.includes(req.user),
+        followedUser: userData.email,
+        followingUser: req.email
     });
 });
 
@@ -208,10 +213,26 @@ router.get('/verify-email', async (req, res) => {
     }
 });
 
-router.get('/follow-user/:followedUser/:followingUser', (req, res) => {
+router.get('/follow-user/:followedUser/:followingUser', async (req, res) => {
     const followedUser = req.params.followedUser; // followed user - add id to followers
     const followingUser = req.params.followingUser; // following user - add id to following
 
+    const followedUserData = await getUserData(followedUser); // Sofroniev - profile
+    const followingUserData = await getUserData(followingUser); // Ivanov - loggedUser
+
+    const newUserFollwed = await User.findByIdAndUpdate(
+        { _id: followedUserData.id },
+        { $addToSet: { followers: followingUserData._id } },
+        { new: true }
+    );
+
+    const newUserFollowing = await User.findByIdAndUpdate(
+        { _id: followingUserData._id },
+        { $addToSet: { following: followedUserData._id } },
+        { new: true }
+    );
+
+    res.redirect(`/users/profile/${followedUserData.email}`);
 });
 
 export default router;

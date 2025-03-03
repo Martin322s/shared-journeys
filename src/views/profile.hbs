@@ -6,7 +6,13 @@
                 <h1 class="profile-name">{{user.firstName}} {{user.lastName}}</h1>
                 <div class="profile-buttons">
                     {{#if follow}}
-                    <a href="/users/" class="btn-follow">Последвай</a>
+                    <a href="/users/follow-user/{{followedUser}}/{{followingUser}}" class="btn-follow">Последвай</a>
+                    {{else}}
+                    {{#if notCurrentUser}}
+                    <div class="already-following">
+                        <i class="bi bi-check-circle-fill"></i>Последван
+                    </div>
+                    {{/if}}
                     {{/if}}
                     {{#if message}}
                     <a href="#" class="btn-message">Съобщение</a>
@@ -22,6 +28,14 @@
                 <div class="stat-card">
                     <div class="stat-number">{{user.tripsSharedHistory.length}}</div>
                     <div class="stat-label">Споделени обяви</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">{{user.followers.length}}</div>
+                    <div class="stat-label">Последователи</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">{{user.following.length}}</div>
+                    <div class="stat-label">Последвани</div>
                 </div>
             </div>
 
