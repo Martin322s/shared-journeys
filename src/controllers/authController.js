@@ -17,6 +17,10 @@ function containsOnlySpaces(password) {
 }
 
 router.get('/login', privateGuardUser, (req, res) => {
+    if (req.query.error == 'jwt expired') {
+        return res.render('login', { layout: 'login', error: { message: 'Вашата сесия е изтекла. Моля, влезте отново!' } }); 
+    }
+    
     res.render('login', { layout: 'login' });
 });
 
@@ -160,9 +164,6 @@ router.get('/profile/:userEmail', privateGuardGuest, async (req, res) => {
             populate: { path: '_ownerId', select: 'firstName lastName email phone' }
         })
         .exec();
-
-    console.log( userData.followers.includes(req.user));
-
 
     res.render('profile', {
         layout: 'profile',
