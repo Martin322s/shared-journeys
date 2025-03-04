@@ -6,14 +6,6 @@ import { SECRET } from '../../config/constants.js';
 export const auth = async (req, res, next) => {
     try {
         const token = req.cookies['session'];
-
-        if (!token) {
-            if (req.path !== '/users/login') {
-                return res.redirect('/users/login');
-            }
-            return next();
-        }
-
         const decodedToken = await jwtVerify(token, SECRET);
 
         if (decodedToken.role === 'admin') {

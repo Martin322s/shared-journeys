@@ -26,6 +26,8 @@ router.get('/login', privateGuardUser, (req, res) => {
 
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
+
+    
     try {
         if ((email && password) && (email !== '' && password !== '')) {
             const emailRegex = new RegExp('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
@@ -168,6 +170,7 @@ router.get('/profile/:userEmail', privateGuardGuest, async (req, res) => {
     res.render('profile', {
         layout: 'profile',
         user: {
+            _id: userData._id,
             firstName: userData.firstName,
             lastName: userData.lastName,
             email: userData.email,
@@ -185,8 +188,7 @@ router.get('/profile/:userEmail', privateGuardGuest, async (req, res) => {
         follow: req.user !== userData._id.toString() && !userData.followers.includes(req.user),
         message: req.user !== userData._id.toString() && userData.followers.includes(req.user),
         followedUser: userData.email,
-        followingUser: req.email,
-        rating: 5
+        followingUser: req.email
     });
 });
 
@@ -240,6 +242,6 @@ router.get('/follow-user/:followedUser/:followingUser', async (req, res) => {
 router.get('/profiles', async (req, res) => {
     const users = await User.find().lean();
     res.render('drivers', { layout: 'drivers', users });
-})
+});
 
 export default router;
