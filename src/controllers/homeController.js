@@ -15,8 +15,6 @@ router.get('/admin', async (req, res) => {
     const users = await User.find().lean();
     const deletedUsers = users.filter(x => x.isDeleted == true);
     const trips = await Trip.find().lean().populate('_ownerId');
-    console.log(trips);
-    
     res.render('admin', { 
         layout: 'admin', 
         usersCount: users.length, 

@@ -241,7 +241,7 @@ router.get('/follow-user/:followedUser/:followingUser', async (req, res) => {
 
 router.get('/profiles', async (req, res) => {
     const users = await User.find().lean();
-    res.render('drivers', { layout: 'drivers', users });
+    res.render('drivers', { layout: 'drivers', users: users.filter(x => x._id.toString() !== req.user) });
 });
 
 export default router;
