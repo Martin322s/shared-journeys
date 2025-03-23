@@ -26,7 +26,16 @@
                 <div class="courses-item d-flex flex-column bg-light overflow-hidden">
                     <div class="text-center p-4 pt-0">
                         <div class="d-inline-block bg-primary text-white fs-5 py-1 px-4 mb-4">{{price}} лв</div>
-                        <h5 class="mb-3"><a href="/roads/offer-details/{{_id}}">{{startPoint}} - {{endPoint}}</a></h5>
+
+                        {{#if email}}
+                        <h5 class="mb-3"></h5>
+                        <a href="/roads/offer-details/{{_id}}">
+                            {{startPoint}} - {{endPoint}}
+                        </a>
+                        </h5>
+                        {{else}}
+                        <h5>{{startPoint}} - {{endPoint}}</h5>
+                        {{/if}}
                         <p>Търся спътници за пътуване до {{endPoint}}. Тръгване около {{time}} ч. Свободни
                             {{seats}} места.
                         </p>

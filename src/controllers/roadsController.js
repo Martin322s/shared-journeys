@@ -14,7 +14,7 @@ function isDatePassed(dateString) {
 
 router.get('/road-offers', async (req, res) => {
     const roadOffers = await getAll();
-    res.render('road-offers', { layout: 'roads', roadOffers });
+    res.render('road-offers', { layout: 'roads', roadOffers: roadOffers.map(x => ({ ...x, email: req.email})) });
 });
 
 router.get('/about', (req, res) => {

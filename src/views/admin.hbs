@@ -7,19 +7,15 @@
 <div class="dashboard-stats">
     <div class="stat-card">
         <div class="title">Общо потребители</div>
-        <div class="value">2,476</div>
-    </div>
-    <div class="stat-card">
-        <div class="title">Активни потребители</div>
-        <div class="value">2,391</div>
+        <div class="value">{{usersCount}}</div>
     </div>
     <div class="stat-card">
         <div class="title">Изтрити потребители</div>
-        <div class="value">85</div>
+        <div class="value">{{deletedUsersCount}}</div>
     </div>
     <div class="stat-card">
         <div class="title">Общо публикации</div>
-        <div class="value">5,428</div>
+        <div class="value">{{tripsCount}}</div>
     </div>
 </div>
 
@@ -28,84 +24,26 @@
     <!-- Активни потребители -->
     <div class="users-column">
         <div class="column-header">
-            Активни потребители
+            Потребители
         </div>
         <div class="user-list">
+            {{#each users}}
             <div class="user-card">
                 <div class="user-info">
-                    <div class="user-name">Георги Петров</div>
-                    <div class="user-email">georgi.petrov@example.com</div>
-                    <div class="user-date">Регистриран на: 15.02.2023</div>
+                    <div class="user-name">{{firstName}} {{lastName}}</div>
+                    <div class="user-email">{{email}}</div>
+                    <div class="user-date">Регистриран на: {{createdAt}}</div>
                 </div>
                 <div class="user-actions">
-                    <button class="btn btn-admin">
+                    <a href="/users/promote/{{_id}}" class="btn btn-admin">
                         <i>👑</i> Дай админ права
-                    </button>
-                    <button class="btn btn-delete">
+                    </a>
+                    <a href="/users/delete/{{_id}}" class="btn btn-delete">
                         <i>🗑️</i> Изтрий
-                    </button>
+                    </a>
                 </div>
             </div>
-            <div class="user-card">
-                <div class="user-info">
-                    <div class="user-name">Мария Иванова</div>
-                    <div class="user-email">maria.ivanova@example.com</div>
-                    <div class="user-date">Регистриран на: 10.02.2023</div>
-                </div>
-                <div class="user-actions">
-                    <button class="btn btn-admin">
-                        <i>👑</i> Дай админ права
-                    </button>
-                    <button class="btn btn-delete">
-                        <i>🗑️</i> Изтрий
-                    </button>
-                </div>
-            </div>
-            <div class="user-card">
-                <div class="user-info">
-                    <div class="user-name">Николай Колев</div>
-                    <div class="user-email">nikolay.kolev@example.com</div>
-                    <div class="user-date">Регистриран на: 05.02.2023</div>
-                </div>
-                <div class="user-actions">
-                    <button class="btn btn-admin">
-                        <i>👑</i> Дай админ права
-                    </button>
-                    <button class="btn btn-delete">
-                        <i>🗑️</i> Изтрий
-                    </button>
-                </div>
-            </div>
-            <div class="user-card">
-                <div class="user-info">
-                    <div class="user-name">Стефан Тодоров</div>
-                    <div class="user-email">stefan.todorov@example.com</div>
-                    <div class="user-date">Регистриран на: 28.01.2023</div>
-                </div>
-                <div class="user-actions">
-                    <button class="btn btn-admin">
-                        <i>👑</i> Дай админ права
-                    </button>
-                    <button class="btn btn-delete">
-                        <i>🗑️</i> Изтрий
-                    </button>
-                </div>
-            </div>
-            <div class="user-card">
-                <div class="user-info">
-                    <div class="user-name">Силвия Димитрова</div>
-                    <div class="user-email">silvia.dimitrova@example.com</div>
-                    <div class="user-date">Регистриран на: 25.01.2023</div>
-                </div>
-                <div class="user-actions">
-                    <button class="btn btn-admin">
-                        <i>👑</i> Дай админ права
-                    </button>
-                    <button class="btn btn-delete">
-                        <i>🗑️</i> Изтрий
-                    </button>
-                </div>
-            </div>
+            {{/each}}
         </div>
     </div>
 
@@ -115,42 +53,20 @@
             Изтрити потребители
         </div>
         <div class="user-list">
+            {{#each deletedUsers}}
             <div class="user-card">
                 <div class="user-info">
-                    <div class="user-name">Петър Стоянов</div>
-                    <div class="user-email">petar.stoyanov@example.com</div>
-                    <div class="user-date">Регистриран на: 20.01.2023</div>
+                    <div class="user-name">{{firstName}} {{lastName}}</div>
+                    <div class="user-email">{{email}}</div>
+                    <div class="user-date">Регистриран на: {{createdAt}}</div>
                 </div>
                 <div class="user-actions">
-                    <button class="btn btn-restore">
+                    <a href="/restore/{{_id}}" class="btn btn-restore">
                         <i>♻️</i> Възстанови
-                    </button>
+                    </a>
                 </div>
             </div>
-            <div class="user-card">
-                <div class="user-info">
-                    <div class="user-name">Елена Велкова</div>
-                    <div class="user-email">elena.velkova@example.com</div>
-                    <div class="user-date">Регистриран на: 15.01.2023</div>
-                </div>
-                <div class="user-actions">
-                    <button class="btn btn-restore">
-                        <i>♻️</i> Възстанови
-                    </button>
-                </div>
-            </div>
-            <div class="user-card">
-                <div class="user-info">
-                    <div class="user-name">Александър Николов</div>
-                    <div class="user-email">alex.nikolov@example.com</div>
-                    <div class="user-date">Регистриран на: 10.01.2023</div>
-                </div>
-                <div class="user-actions">
-                    <button class="btn btn-restore">
-                        <i>♻️</i> Възстанови
-                    </button>
-                </div>
-            </div>
+            {{/each}}
         </div>
     </div>
 </div>
@@ -162,68 +78,32 @@
         <thead>
             <tr>
                 <th>Заглавие</th>
-                <th>Автор</th>
-                <th>Дата на публикация</th>
+                <th>Шофьор</th>
+                <th>Дата на пътуване</th>
                 <th>Статус</th>
                 <th>Действия</th>
             </tr>
         </thead>
         <tbody>
+            {{#each trips}}
             <tr>
-                <td>Пътуване до Гърция - Халкидики, август 2023</td>
-                <td>Георги Петров</td>
-                <td>14.02.2023</td>
-                <td><span class="publication-status status-active">Активна</span></td>
+                <td>Пътуване до {{startPoint}} - {{endPoint}}</td>
+                <td>{{_ownerId.firstName}} {{_ownerId.lastName}}</td>
+                <td>{{date}}</td>
                 <td>
-                    <button class="btn btn-delete">
+                    {{#if isFinished}}
+                        <span class="publication-status status-active">Активна</span>
+                    {{else}}
+                        <span class="publication-status status-active">Завършена</span>
+                    {{/if}}
+                </td>
+                <td>
+                    <a href="/delete/{{_id}}" class="btn btn-delete">
                         <i>🗑️</i> Изтрий
-                    </button>
+                    </a>
                 </td>
             </tr>
-            <tr>
-                <td>Пътуване до Испания - Барселона, септември 2023</td>
-                <td>Мария Иванова</td>
-                <td>12.02.2023</td>
-                <td><span class="publication-status status-active">Активна</span></td>
-                <td>
-                    <button class="btn btn-delete">
-                        <i>🗑️</i> Изтрий
-                    </button>
-                </td>
-            </tr>
-            <tr>
-                <td>Пътуване до Италия - Рим, юли 2023</td>
-                <td>Николай Колев</td>
-                <td>08.02.2023</td>
-                <td><span class="publication-status status-deleted">Изтрита</span></td>
-                <td>
-                    <button class="btn btn-restore">
-                        <i>♻️</i> Възстанови
-                    </button>
-                </td>
-            </tr>
-            <tr>
-                <td>Пътуване до Франция - Париж, август 2023</td>
-                <td>Силвия Димитрова</td>
-                <td>05.02.2023</td>
-                <td><span class="publication-status status-active">Активна</span></td>
-                <td>
-                    <button class="btn btn-delete">
-                        <i>🗑️</i> Изтрий
-                    </button>
-                </td>
-            </tr>
-            <tr>
-                <td>Пътуване до Турция - Истанбул, юни 2023</td>
-                <td>Стефан Тодоров</td>
-                <td>01.02.2023</td>
-                <td><span class="publication-status status-deleted">Изтрита</span></td>
-                <td>
-                    <button class="btn btn-restore">
-                        <i>♻️</i> Възстанови
-                    </button>
-                </td>
-            </tr>
+            {{/each}}
         </tbody>
     </table>
 </div>
