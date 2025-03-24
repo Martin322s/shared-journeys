@@ -20,7 +20,7 @@ router.get('/admin', async (req, res) => {
         usersCount: users.length, 
         deletedUsersCount: deletedUsers.length,
         tripsCount: trips.length,
-        users: users.filter(x => x.isDeleted == false),
+        users: users.filter(x => x.isDeleted == false && x._id != req.user),
         deletedUsers,
         trips
     });

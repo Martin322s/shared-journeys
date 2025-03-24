@@ -1,7 +1,8 @@
 import express from 'express';
 import { generateToken, getUserData, loginUser, registerUser, sendVerificationEmail } from '../services/authService.js';
 import { privateGuardGuest, privateGuardUser } from '../middlewares/authMiddleware.js';
-import { getAuthor, getOne, myOffers } from '../services/tripService.js';
+import { myOffers } from '../services/tripService.js';
+import { editTrip } from '../services/tripService.js';
 import User from '../models/User.js';
 
 const router = express.Router();
@@ -27,10 +28,19 @@ router.get('/login', privateGuardUser, (req, res) => {
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
 
-    
     try {
         if ((email && password) && (email !== '' && password !== '')) {
             const emailRegex = new RegExp('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
+
+            const userProfile = await User.findOne({ email });
+            console.log(userProfile);
+
+
+            if (userProfile && userProfile.isDeleted == true) {
+                throw {
+                    message: 'Вашият акаунт е със спряна активност. Моля, свържете се с администраторите!'
+                }
+            }
 
             if (email && !emailRegex.test(email)) {
                 throw {
@@ -242,6 +252,20 @@ router.get('/follow-user/:followedUser/:followingUser', async (req, res) => {
 router.get('/profiles', async (req, res) => {
     const users = await User.find().lean();
     res.render('drivers', { layout: 'drivers', users: users.filter(x => x._id.toString() !== req.user) });
+});
+
+router.get('/delete/:userId', async (req, res) => {
+    const user = await User.findById(req.params.userId);
+    user.isDeleted = true;
+    await User.findByIdAndUpdate({ _id: user._id }, user);
+    return res.redirect('/admin');
+});
+
+router.get('/restore/:userId', async (req, res) => {
+    const user = await User.findById(req.params.userId);
+    user.isDeleted = false;
+    await await User.findByIdAndUpdate({ _id: user._id }, user);
+    return res.redirect('/admin');
 });
 
 export default router;
