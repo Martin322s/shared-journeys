@@ -19,8 +19,6 @@ export const auth = async (req, res, next) => {
         return next();
 
     } catch (err) {
-        console.error('Auth Error:', err.message);
-
         if (err.message === 'jwt expired') {
             res.clearCookie('session');
             res.locals.err = 'asd'

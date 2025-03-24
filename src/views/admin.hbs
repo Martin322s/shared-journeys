@@ -91,16 +91,18 @@
                 <td>{{_ownerId.firstName}} {{_ownerId.lastName}}</td>
                 <td>{{date}}</td>
                 <td>
-                    {{#if isFinished}}
-                        <span class="publication-status status-active">Активна</span>
+                    {{#if isDeleted}}
+                        <span class="publication-status status-deleted">Изтрита</span>
                     {{else}}
-                        <span class="publication-status status-active">Завършена</span>
+                        <span class="publication-status status-active">Активна</span>
                     {{/if}}
                 </td>
                 <td>
-                    <a href="/delete/{{_id}}" class="btn btn-delete">
+                   {{#unless isDeleted}}
+                    <a href="/roads/delete-offer/{{_id}}" class="btn btn-delete">
                         <i>🗑️</i> Изтрий
                     </a>
+                   {{/unless}}
                 </td>
             </tr>
             {{/each}}

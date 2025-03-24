@@ -44,7 +44,15 @@ const tripSchema = new mongoose.Schema({
     buddies: [{
         type: mongoose.Types.ObjectId,
         ref: 'User'
-    }]
+    }],
+    isDeleted: {
+        type: Boolean,
+        required: true
+    },
+    isFinished: {
+        type: Boolean,
+        required: true
+    },
 }, { timestamps: true });
 
 const Trip = mongoose.model('Trip', tripSchema);

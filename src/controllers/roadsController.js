@@ -1,5 +1,5 @@
 import express from 'express';
-import { addOffer, createTrip, getAll, getAllPassagers, getOne } from '../services/tripService.js';
+import { addOffer, createTrip, editTrip, getAll, getAllPassagers, getOne } from '../services/tripService.js';
 import { getUserData } from '../services/authService.js';
 import Trip from '../models/Trip.js';
 import User from '../models/User.js';
@@ -14,7 +14,10 @@ function isDatePassed(dateString) {
 
 router.get('/road-offers', async (req, res) => {
     const roadOffers = await getAll();
-    res.render('road-offers', { layout: 'roads', roadOffers: roadOffers.map(x => ({ ...x, email: req.email})) });
+    const roads = roadOffers
+        .map(x => ({ ...x, email: req.email }))
+        .filter(x => x.isDeleted == false);
+    res.render('road-offers', { layout: 'roads', roadOffers: roads });
 });
 
 router.get('/about', (req, res) => {
@@ -177,6 +180,11 @@ router.get('/take-seat/:offerId', async (req, res) => {
     }
 });
 
-
+router.get('/delete-offer/:offerId', async (req, res) => {
+    const offer = await Trip.findById(req.params.offerId);
+    offer.isDeleted = true;
+    await editTrip(offer._id, offer);
+    return res.redirect('/roads/road-offers');
+});
 
 export default router;

@@ -55,7 +55,11 @@ const userSchema = new mongoose.Schema({
     following: [{
         type: mongoose.Types.ObjectId,
         ref: 'User'
-    }]
+    }],
+    isDeleted: {
+        type: Boolean,
+        required: true
+    },
 }, { timestamps: true });
 
 userSchema.virtual('formattedDate').get(function () {
