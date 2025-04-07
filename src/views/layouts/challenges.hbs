@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="bg">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Предизвикателства - Споделени пътувания</title>
+	<link href="/assets/img/logo2.png" rel="icon">
+	<link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Sevillana&display=swap"
+		rel="stylesheet">
+	<link href="/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+	<link href="/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+	<link href="/assets/vendor/aos/aos.css" rel="stylesheet">
+	<link href="/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+	<link href="/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+
+	<link href="/assets/css/main.css" rel="stylesheet">
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			font-family: Arial, sans-serif;
+		}
+
+		body {
+			background-color: #f5f5f5;
+		}
+
+		.challenges-header {
+			background-color: #5C2E00;
+			color: white;
+			padding: 15px 20px;
+			border-radius: 5px;
+			margin-bottom: 20px;
+			text-align: center;
+			font-size: 18px;
+			font-weight: bold;
+			margin-top: 100px;
+		}
+
+		.challenges-container {
+			display: grid;
+			grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+			gap: 20px;
+			padding: 20px;
+		}
+
+		.challenge-card {
+			background-color: white;
+			border-radius: 5px;
+			overflow: hidden;
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+			border-left: 4px solid #FFC233;
+		}
+
+		.challenge-card-header {
+			background-color: #FFC233;
+			padding: 10px 15px;
+			font-weight: bold;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+
+		.badge {
+			background-color: #5C2E00;
+			color: white;
+			padding: 3px 8px;
+			border-radius: 10px;
+			font-size: 12px;
+		}
+
+		.challenge-card-body {
+			padding: 15px;
+		}
+
+		.challenge-info {
+			display: flex;
+			justify-content: space-between;
+			margin-bottom: 10px;
+		}
+
+		.challenge-reward,
+		.challenge-points {
+			display: flex;
+			align-items: center;
+			font-size: 14px;
+		}
+
+		.challenge-reward img,
+		.challenge-points img {
+			width: 16px;
+			height: 16px;
+			margin-right: 5px;
+		}
+
+		.challenge-description {
+			color: #666;
+			margin-bottom: 15px;
+			font-size: 14px;
+		}
+
+		.challenge-progress {
+			margin-top: 15px;
+			background-color: #e0e0e0;
+			height: 10px;
+			border-radius: 5px;
+			overflow: hidden;
+		}
+
+		.progress-bar {
+			height: 100%;
+			background-color: #5C2E00;
+		}
+
+		.progress-text {
+			text-align: right;
+			font-size: 12px;
+			color: #666;
+			margin-top: 5px;
+		}
+
+		.btn {
+			display: block;
+			width: 100%;
+			padding: 8px 0;
+			border: none;
+			border-radius: 4px;
+			cursor: pointer;
+			font-weight: bold;
+			text-align: center;
+			margin-top: 15px;
+		}
+
+		.btn-primary {
+			background-color: #5C2E00;
+			color: white;
+		}
+
+		.btn-secondary {
+			background-color: #FFC233;
+			color: #5C2E00;
+		}
+
+		.btn-disabled {
+			background-color: #e0e0e0;
+			color: #999;
+			cursor: not-allowed;
+		}
+	</style>
+</head>
+
+<body>
+	{{> header}}
+
+	{{{body}}}
+
+	{{> footer}}
+</body>
+
+</html>

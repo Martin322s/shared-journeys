@@ -196,7 +196,7 @@ router.post('/edit-offer/:offerId', async (req, res) => {
 		res.redirect(`/roads/offer-details/${offerId}`);
 	} catch (err) {
 		console.log(err);
-		
+
 		const offer = await Trip.findById(req.params.offerId);
 		res.render('trip-edit', {
 			layout: 'trip-edit',
@@ -296,13 +296,17 @@ router.get('/delete-offer/:offerId', async (req, res) => {
 router.get('/finish-offer/:offerId', async (req, res) => {
 	const offer = await Trip.findById(req.params.offerId);
 	const driver = await User.findById(offer._ownerId);
-	
+
 	offer.isFinished = true;
 	await editTrip(offer._id, offer);
 
 	driver.points += 10;
 	await driver.save();
 	return res.redirect('/roads/road-offers');
+});
+
+router.get('/challenges', (req, res) => {
+	res.render('challenges', { layout: 'challenges' });
 });
 
 export default router;
