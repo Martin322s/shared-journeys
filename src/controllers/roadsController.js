@@ -3,7 +3,6 @@ import { addOffer, createTrip, editTrip, getAll, getAllPassagers, getOne } from 
 import { getUserData } from '../services/authService.js';
 import Trip from '../models/Trip.js';
 import User from '../models/User.js';
-import emailjs from '@emailjs/nodejs';
 
 const router = express.Router();
 
@@ -146,6 +145,63 @@ router.get('/edit-offer/:offerId', async (req, res) => {
 	res.render('trip-edit', { layout: 'trip-edit', offer });
 });
 
+router.post('/edit-offer/:offerId', async (req, res) => {
+	try {
+		const offerId = req.params.offerId;
+		const offer = await Trip.findById(offerId);
+
+		if (!offer) {
+			throw { message: 'Пътуването не беше намерено!' };
+		}
+
+		const allowedImageFormats = ['image/jpeg', 'image/jpg', 'image/png'];
+
+		if (isDatePassed(req.body.date)) {
+			throw { message: 'Избраната дата, вече е отминала. Моля, изберете нова!' };
+		}
+
+		if (req.body.seats <= 0 || req.body.price < 0) {
+			throw { message: 'Невалидна стойност при свободните места или таксата за пътуване!' };
+		}
+
+		let imageWithPrefix;
+
+		if (req.files?.carImage && req.files.carImage.size > 0) {
+			const carImage = req.files.carImage;
+
+			if (!allowedImageFormats.includes(carImage.mimetype)) {
+				throw { message: 'Невалиден формат на снимката!' };
+			}
+
+			const base64Image = carImage.data.toString('base64');
+			imageWithPrefix = `data:${carImage.mimetype};base64,${base64Image}`;
+		}
+
+		offer.startPoint = req.body.startPoint;
+		offer.endPoint = req.body.endPoint;
+		offer.date = req.body.date;
+		offer.time = req.body.time;
+		offer.carBrand = req.body.carBrand;
+		offer.seats = req.body.seats;
+		offer.price = req.body.price;
+		offer.description = req.body.description;
+		offer.carImage = imageWithPrefix ? imageWithPrefix : offer.carImage;
+
+		await offer.save();
+
+		res.redirect(`/roads/offer-details/${offerId}`);
+	} catch (err) {
+		console.log(err);
+		
+		const offer = await Trip.findById(req.params.offerId);
+		res.render('trip-edit', {
+			layout: 'trip-edit',
+			error: { message: err.message },
+			offer,
+		});
+	}
+});
+
 router.get('/take-seat/:offerId', async (req, res) => {
 	const userEmail = res.locals.email;
 	const offerId = req.params.offerId;
@@ -213,7 +269,7 @@ router.get('/take-seat/:offerId', async (req, res) => {
 
 			if (!response.ok) {
 				console.log(response);
-				
+
 				throw new Error('Неуспешно изпращане на имейл.');
 			}
 
