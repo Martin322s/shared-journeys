@@ -33,8 +33,6 @@ router.post('/login', async (req, res) => {
             const emailRegex = new RegExp('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$');
 
             const userProfile = await User.findOne({ email });
-            console.log(userProfile);
-
 
             if (userProfile && userProfile.isDeleted == true) {
                 throw {
