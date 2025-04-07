@@ -4,6 +4,7 @@ import { privateGuardGuest, privateGuardUser } from '../middlewares/authMiddlewa
 import { myOffers } from '../services/tripService.js';
 import { editTrip } from '../services/tripService.js';
 import User from '../models/User.js';
+import getRankTitle from '../utils/points.js';
 
 const router = express.Router();
 
@@ -188,7 +189,9 @@ router.get('/profile/:userEmail', privateGuardGuest, async (req, res) => {
             tripsSharedHistory: userData.tripsSharedHistory,
             createdAt: userData.formattedDate,
             followers: userData.followers,
-            following: userData.following
+            following: userData.following,
+			points: userData.points,
+			accountTitle: getRankTitle(userData.points)
         },
         driver: driver,
         createdRoads,

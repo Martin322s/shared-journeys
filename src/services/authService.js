@@ -47,7 +47,8 @@ export const registerUser = async (userData) => {
                     isDeleted: false,
                     role: 'user',
                     followers: [],
-                    following: []
+                    following: [],
+					points: 0
                 });
 
                 return user;
