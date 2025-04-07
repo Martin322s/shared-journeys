@@ -3,6 +3,8 @@ import { addOffer, createTrip, editTrip, getAll, getAllPassagers, getOne } from 
 import { getUserData } from '../services/authService.js';
 import Trip from '../models/Trip.js';
 import User from '../models/User.js';
+import Challenge from '../models/Challenge.js';
+import UserChallenge from '../models/User-Challenge.js';
 
 const router = express.Router();
 
@@ -305,8 +307,91 @@ router.get('/finish-offer/:offerId', async (req, res) => {
 	return res.redirect('/roads/road-offers');
 });
 
-router.get('/challenges', (req, res) => {
-	res.render('challenges', { layout: 'challenges' });
+router.get('/challenges', async (req, res) => {
+	const challenges = await Challenge.find().lean();
+	const userChallenges = await UserChallenge.find().lean();
+
+	console.log(userChallenges);
+
+	const challengesWithProgress = challenges.map(ch => {
+		const userCh = userChallenges.find(up => up.challengeId.toString() === ch._id.toString());
+
+		const progress = userCh ? userCh.progress : 0;
+		const completed = userCh ? userCh.completed : false;
+		const rewarded = userCh ? userCh.rewarded : false;
+
+		const percent = ch.target > 0 ? Math.min((progress / ch.target) * 100, 100) : 0;
+
+		return {
+			...ch,
+			userProgress: progress,
+			userCompleted: completed,
+			userRewarded: rewarded,
+			progressPercent: Number(percent.toFixed(0)),
+			isEnroll: !!userCh
+		};
+	});
+
+	console.log(challengesWithProgress);
+	
+
+	res.render('challenges', { layout: 'challenges', challengesWithProgress });
+});
+
+router.post('/challenges/create', async (req, res) => {
+	try {
+		const {
+			title,
+			description,
+			reward,
+			points,
+			status,
+			goal,
+			target,
+			startDate,
+			endDate
+		} = req.body;
+
+		const newChallenge = new Challenge({
+			title,
+			description,
+			reward,
+			points,
+			status,
+			goal,
+			target,
+			startDate,
+			endDate
+		});
+
+		await newChallenge.save();
+
+		res.redirect('/roads/challenges');
+	} catch (err) {
+		console.error('Грешка при създаване на предизвикателство:', err);
+		res.redirect('/roads/challenges');
+	}
+});
+
+router.get('/user-challenges/enroll/:challengeId', async (req, res) => {
+	try {
+		const userId = req.user;
+		const challengeId = req.params.challengeId;
+
+		const exists = await UserChallenge.findOne({ userId, challengeId });
+
+		const userChallenge = new UserChallenge({
+			userId,
+			challengeId
+		});
+
+		await userChallenge.save();
+
+		res.redirect('/roads/challenges');
+	} catch (err) {
+		console.error(err);
+		res.status(500).send('Грешка при записване за предизвикателство.');
+	}
 });
 
 export default router;

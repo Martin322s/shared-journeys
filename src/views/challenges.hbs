@@ -2,82 +2,39 @@
 	Предизвикателства
 </div>
 
+{{#each challengesWithProgress}}
 <div class="challenges-container">
 	<div class="challenge-card">
 		<div class="challenge-card-header">
-			<span>Активно</span>
-			<span class="badge">В процес</span>
+			<span class="badge">{{status}}</span>
 		</div>
 		<div class="challenge-card-body">
-			<h3>Завърши 5 пътувания</h3>
+			<h3>{{title}}</h3>
 			<div class="challenge-info">
 				<div class="challenge-reward">
-					Награда: 50 лв. отстъпка
+					Награда: {{reward}}
 				</div>
 				<div class="challenge-points">
-					100 точки
+					{{points}} точки
 				</div>
 			</div>
 			<div class="challenge-description">
-				Завърши 5 пътувания като шофьор или пътник през следващите 30 дни.
+				{{description}}
 			</div>
 			<div class="challenge-progress">
-				<div class="progress-bar" style="width: 60%;"></div>
+				<div class="progress-bar" style="width: {{progressPercent}}%;"></div>
 			</div>
-			<div class="progress-text">3/5 пътувания</div>
-			<button class="btn btn-primary">В процес</button>
-		</div>
-	</div>
-
-	<div class="challenge-card">
-		<div class="challenge-card-header">
-			<span>Започни</span>
-			<span class="badge">Ново</span>
-		</div>
-		<div class="challenge-card-body">
-			<h3>Пътувай до морето</h3>
-			<div class="challenge-info">
-				<div class="challenge-reward">
-					Награда: Плажна чанта
-				</div>
-				<div class="challenge-points">
-					120 точки
-				</div>
-			</div>
-			<div class="challenge-description">
-				Завърши поне едно споделено пътуване до черноморски курорт през лятото.
-			</div>
-			<div class="challenge-progress">
-				<div class="progress-bar" style="width: 55%;"></div>
-			</div>
-			<div class="progress-text">0/1 пътувания</div>
-			<button class="btn btn-secondary">Започни</button>
-		</div>
-	</div>
-
-	<div class="challenge-card">
-		<div class="challenge-card-header">
-			<span>Завършено</span>
-			<span class="badge">Изпълнено</span>
-		</div>
-		<div class="challenge-card-body">
-			<h3>Първо пътуване</h3>
-			<div class="challenge-info">
-				<div class="challenge-reward">
-					Награда: 10 лв. отстъпка
-				</div>
-				<div class="challenge-points">
-					50 точки
-				</div>
-			</div>
-			<div class="challenge-description">
-				Завърши първото си споделено пътуване като пътник или шофьор.
-			</div>
-			<div class="challenge-progress">
-				<div class="progress-bar" style="width: 100%;"></div>
-			</div>
-			<div class="progress-text">1/1 пътувания</div>
-			<button class="btn btn-disabled">Получена награда</button>
+			<div class="progress-text">{{userProgress}}/5 пътувания</div>
+			{{#if userCompleted}}
+			<h6 class="btn btn-primary" disabled>Завършено!</h6>
+			{{else}}
+			{{#if isEnroll}}
+			<h6 class="btn btn-primary" disabled>В прогрес</h6>
+			{{else}}
+			<a href="/user-challenges/enroll/:challengeId" class="btn btn-primary">Започни</a>
+			{{/if}}
+			{{/if}}
 		</div>
 	</div>
 </div>
+{{/each}}
