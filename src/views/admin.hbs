@@ -1,111 +1,119 @@
 <!-- Заглавие -->
 <div class="header">
-    <h1 class="page-title">Администраторско табло - GoTogether.</h1>
+	<h1 class="page-title">Администраторско табло - GoTogether.</h1>
 </div>
 
 <!-- Статистики -->
 <div class="dashboard-stats">
-    <div class="stat-card">
-        <div class="title">Общо потребители</div>
-        <div class="value">{{usersCount}}</div>
-    </div>
-    <div class="stat-card">
-        <div class="title">Изтрити потребители</div>
-        <div class="value">{{deletedUsersCount}}</div>
-    </div>
-    <div class="stat-card">
-        <div class="title">Общо публикации</div>
-        <div class="value">{{tripsCount}}</div>
-    </div>
+	<div class="stat-card">
+		<div class="title">Общо потребители</div>
+		<div class="value">{{usersCount}}</div>
+	</div>
+	<div class="stat-card">
+		<div class="title">Изтрити потребители</div>
+		<div class="value">{{deletedUsersCount}}</div>
+	</div>
+	<div class="stat-card">
+		<div class="title">Общо публикации</div>
+		<div class="value">{{tripsCount}}</div>
+	</div>
 </div>
 
 <!-- Потребителски колони -->
 <div class="users-container">
-    <!-- Активни потребители -->
-    <div class="users-column">
-        <div class="column-header">
-            Потребители
-        </div>
-        <div class="user-list">
-            {{#each users}}
-            <div class="user-card">
-                <div class="user-info">
-                    <div class="user-name">{{firstName}} {{lastName}}</div>
-                    <div class="user-email">{{email}}</div>
-                    <div class="user-date">Регистриран на: {{createdAt}}</div>
-                </div>
-                <div class="user-actions">
-                    <a href="/users/promote/{{_id}}" class="btn btn-admin">
-                        <i>👑</i> Дай админ права
-                    </a>
-                    <a href="/users/delete/{{_id}}" class="btn btn-delete">
-                        <i>🗑️</i> Изтрий
-                    </a>
-                </div>
-            </div>
-            {{/each}}
-        </div>
-    </div>
+	<!-- Активни потребители -->
+	<div class="users-column">
+		<div class="column-header">
+			Потребители
+		</div>
+		<div class="user-list">
+			{{#each users}}
+			<div class="user-card">
+				<div class="user-info">
+					<div class="user-name">{{firstName}} {{lastName}}</div>
+					<div class="user-email">{{email}}</div>
+					<div class="user-date">Регистриран на: {{createdAt}}</div>
+				</div>
+				<div class="user-actions">
+					{{#if (eq role 'user')}}
+					<a href="/users/promote/{{_id}}" class="btn btn-admin">
+						<i>👑</i> Дай админ права
+					</a>
+					{{else}}
+					<a href="/users/demote/{{_id}}" class="btn btn-admin">
+						<i>👑</i> Премахни админ права
+					</a>
+					{{/if}}
 
-    <!-- Изтрити потребители -->
-    <div class="users-column">
-        <div class="column-header deleted">
-            Изтрити потребители
-        </div>
-        <div class="user-list">
-            {{#each deletedUsers}}
-            <div class="user-card">
-                <div class="user-info">
-                    <div class="user-name">{{firstName}} {{lastName}}</div>
-                    <div class="user-email">{{email}}</div>
-                    <div class="user-date">Регистриран на: {{createdAt}}</div>
-                </div>
-                <div class="user-actions">
-                    <a href="/users/restore/{{_id}}" class="btn btn-restore">
-                        <i>♻️</i> Възстанови
-                    </a>
-                </div>
-            </div>
-            {{/each}}
-        </div>
-    </div>
+					<a href="/users/delete/{{_id}}" class="btn btn-delete">
+						<i>🗑️</i> Изтрий
+					</a>
+				</div>
+			</div>
+			{{/each}}
+		</div>
+
+	</div>
+
+	<!-- Изтрити потребители -->
+	<div class="users-column">
+		<div class="column-header deleted">
+			Изтрити потребители
+		</div>
+		<div class="user-list">
+			{{#each deletedUsers}}
+			<div class="user-card">
+				<div class="user-info">
+					<div class="user-name">{{firstName}} {{lastName}}</div>
+					<div class="user-email">{{email}}</div>
+					<div class="user-date">Регистриран на: {{createdAt}}</div>
+				</div>
+				<div class="user-actions">
+					<a href="/users/restore/{{_id}}" class="btn btn-restore">
+						<i>♻️</i> Възстанови
+					</a>
+				</div>
+			</div>
+			{{/each}}
+		</div>
+	</div>
 </div>
 
 <!-- Публикации -->
 <div class="publications-section">
-    <h2 class="section-title">Управление на публикации</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Заглавие</th>
-                <th>Шофьор</th>
-                <th>Дата на пътуване</th>
-                <th>Статус</th>
-                <th>Действия</th>
-            </tr>
-        </thead>
-        <tbody>
-            {{#each trips}}
-            <tr>
-                <td>Пътуване до {{startPoint}} - {{endPoint}}</td>
-                <td>{{_ownerId.firstName}} {{_ownerId.lastName}}</td>
-                <td>{{date}}</td>
-                <td>
-                    {{#if isDeleted}}
-                        <span class="publication-status status-deleted">Изтрита</span>
-                    {{else}}
-                        <span class="publication-status status-active">Активна</span>
-                    {{/if}}
-                </td>
-                <td>
-                   {{#unless isDeleted}}
-                    <a href="/roads/delete-offer/{{_id}}" class="btn btn-delete">
-                        <i>🗑️</i> Изтрий
-                    </a>
-                   {{/unless}}
-                </td>
-            </tr>
-            {{/each}}
-        </tbody>
-    </table>
+	<h2 class="section-title">Управление на публикации</h2>
+	<table>
+		<thead>
+			<tr>
+				<th>Заглавие</th>
+				<th>Шофьор</th>
+				<th>Дата на пътуване</th>
+				<th>Статус</th>
+				<th>Действия</th>
+			</tr>
+		</thead>
+		<tbody>
+			{{#each trips}}
+			<tr>
+				<td>Пътуване до {{startPoint}} - {{endPoint}}</td>
+				<td>{{_ownerId.firstName}} {{_ownerId.lastName}}</td>
+				<td>{{date}}</td>
+				<td>
+					{{#if isDeleted}}
+					<span class="publication-status status-deleted">Изтрита</span>
+					{{else}}
+					<span class="publication-status status-active">Активна</span>
+					{{/if}}
+				</td>
+				<td>
+					{{#unless isDeleted}}
+					<a href="/roads/delete-offer/{{_id}}" class="btn btn-delete">
+						<i>🗑️</i> Изтрий
+					</a>
+					{{/unless}}
+				</td>
+			</tr>
+			{{/each}}
+		</tbody>
+	</table>
 </div>

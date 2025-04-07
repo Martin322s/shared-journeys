@@ -268,4 +268,18 @@ router.get('/restore/:userId', async (req, res) => {
     return res.redirect('/admin');
 });
 
+router.get('/promote/:userId', async (req, res) => {
+    const user = await User.findById(req.params.userId);
+    user.role = 'admin';
+    await User.findByIdAndUpdate({ _id: user._id }, user);
+    return res.redirect('/admin');
+});
+
+router.get('/demote/:userId', async (req, res) => {
+    const user = await User.findById(req.params.userId);
+    user.role = 'user';
+    await User.findByIdAndUpdate({ _id: user._id }, user);
+    return res.redirect('/admin');
+});
+
 export default router;
