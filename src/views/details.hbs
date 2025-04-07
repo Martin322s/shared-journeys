@@ -1,69 +1,72 @@
 <main>
-    <section class="py-5 details" id="trip-details-page">
-        <div class="container">
-            <div class="destination">
-                <div>
-                    <span class="icon"><i class="fas fa-map-marked-alt"></i></span>
-                    <h5> От <span>{{offerDetails.startPoint}}</span> до <span>{{offerDetails.endPoint}}</span>
-                    </h5>
-                </div>
-                <div>
-                    <span class="icon"><i class="fas fa-calendar-alt"></i></span>
-                    <h5> <span>{{offerDetails.date}}</span> в <span>{{offerDetails.time}}ч.</span> </h5>
-                </div>
-            </div>
-            <p class="line"></p>
-            <div class="buddies-info">
-                <i class="fas fa-users buddies"></i>
-                <h5>Хора, записани за пътуването</h5>
-                <div>
-                    {{#if offerDetails.buddies}}
-                    {{#each buddies}}
-                    <p>{{firstName}} {{lastName}} - {{phone}} - {{email}}</p>
-                    {{/each}}
-                    {{else}}
-                    <p>В момента, няма хора запазили място...</p>
-                    {{/if}}
-                </div>
-                <h5>Шофьор: <span><a href="/users/profile/{{offerDetails._ownerId.email}}">{{offerDetails._ownerId.firstName}} {{offerDetails._ownerId.lastName}}</a> -
-                        {{offerDetails._ownerId.phone}} - {{offerDetails._ownerId.email}}</span> </h5>
-            </div>
-            <p class="line"></p>
-            <h5 class="brand">Автомобил: <span class="lead">{{offerDetails.carBrand}}</span></h5>
-            <div class="trip-info">
-                <div>
-                    <img class="img-fluid rounded" src="{{offerDetails.carImage}}" alt="car-image">
-                </div>
-                <div class="trip-desc">
-                    <h5>Информация за пътуването</h5>
-                    <textarea class="lead" disabled>{{offerDetails.description}}</textarea>
-                    <h5>Цена: <span class="lead">{{offerDetails.price}}</span> лв. / човек</h5>
+	<section class="py-5 details" id="trip-details-page">
+		<div class="container">
+			<div class="destination">
+				<div>
+					<span class="icon"><i class="fas fa-map-marked-alt"></i></span>
+					<h5> От <span>{{offerDetails.startPoint}}</span> до <span>{{offerDetails.endPoint}}</span>
+					</h5>
+				</div>
+				<div>
+					<span class="icon"><i class="fas fa-calendar-alt"></i></span>
+					<h5> <span>{{offerDetails.date}}</span> в <span>{{offerDetails.time}}ч.</span> </h5>
+				</div>
+			</div>
+			<p class="line"></p>
+			<div class="buddies-info">
+				<i class="fas fa-users buddies"></i>
+				<h5>Хора, записани за пътуването</h5>
+				<div>
+					{{#if offerDetails.buddies}}
+					{{#each buddies}}
+					<p>{{firstName}} {{lastName}} - {{phone}} - {{email}}</p>
+					{{/each}}
+					{{else}}
+					<p>В момента, няма хора запазили място...</p>
+					{{/if}}
+				</div>
+				<h5>Шофьор: <span><a
+							href="/users/profile/{{offerDetails._ownerId.email}}">{{offerDetails._ownerId.firstName}}
+							{{offerDetails._ownerId.lastName}}</a> -
+						{{offerDetails._ownerId.phone}} - {{offerDetails._ownerId.email}}</span> </h5>
+			</div>
+			<p class="line"></p>
+			<h5 class="brand">Автомобил: <span class="lead">{{offerDetails.carBrand}}</span></h5>
+			<div class="trip-info">
+				<div>
+					<img class="img-fluid rounded" src="{{offerDetails.carImage}}" alt="car-image">
+				</div>
+				<div class="trip-desc">
+					<h5>Информация за пътуването</h5>
+					<textarea class="lead" disabled>{{offerDetails.description}}</textarea>
+					<h5>Цена: <span class="lead">{{offerDetails.price}}</span> лв. / човек</h5>
 
-                    {{#if user}}
-                    <div class="actions">
-                        {{#if isOwner}}
-                        <a href="/roads/delete-offer/{{offerDetails.id}}" class="btn btn-danger">Изтриване обявата</a>
-                        <a href="/roads/edit-offer/{{offerDetails.id}}" class="btn btn-warning">Редактиране на
-                            обявата</a>
+					{{#if user}}
+					<div class="actions">
+						{{#if isOwner}}
+						<a href="/roads/delete-offer/{{offerDetails.id}}" class="btn btn-danger">Изтриване обявата</a>
+						<a href="/roads/edit-offer/{{offerDetails.id}}" class="btn btn-warning">Редактиране на
+							обявата</a>
+						<a href="/roads/edit-offer/{{offerDetails.id}}" class="btn btn-success">Завърши пътуването</a>
+						{{else}}
+						{{#if availableSeats}}
+						<a href="/roads/take-seat/{{offerDetails.id}}" class="btn btn-join">Присъедини се, [
+							{{offerDetails.seats}} ] места остават!</a>
+						{{/if}}
+						
+						{{#if hasJoined}}
+						<span class="btn btn-info">Мястото ви е запазено!</span>
+						{{/if}}
+						
 
-                        {{else}}
-                        {{#if availableSeats}}
-                        <a href="/roads/take-seat/{{offerDetails.id}}" class="btn btn-join">Присъедини се, [
-                            {{offerDetails.seats}} ] места остават!</a>
-                        {{/if}}
-
-                        {{#if hasJoined}}
-                        <span class="btn btn-info">Мястото ви е запазено!</span>
-                        {{/if}}
-
-                        {{#if noSeats}}
-                        <span class="btn btn-secondary">Няма свободни места!</span>
-                        {{/if}}
-                        {{/if}}
-                    </div>
-                    {{/if}}
-                </div>
-            </div>
-        </div>
-    </section>
+						{{#if noSeats}}
+						<span class="btn btn-secondary">Няма свободни места!</span>
+						{{/if}}
+						{{/if}}
+					</div>
+					{{/if}}
+				</div>
+			</div>
+		</div>
+	</section>
 </main>

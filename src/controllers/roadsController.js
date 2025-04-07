@@ -3,188 +3,233 @@ import { addOffer, createTrip, editTrip, getAll, getAllPassagers, getOne } from 
 import { getUserData } from '../services/authService.js';
 import Trip from '../models/Trip.js';
 import User from '../models/User.js';
+import emailjs from '@emailjs/nodejs';
 
 const router = express.Router();
 
 function isDatePassed(dateString) {
-    const inputDate = new Date(dateString);
-    const currentDate = new Date();
-    return inputDate < currentDate;
+	const inputDate = new Date(dateString);
+	const currentDate = new Date();
+	return inputDate < currentDate;
 }
 
 router.get('/road-offers', async (req, res) => {
-    const roadOffers = await getAll();
-    const roads = roadOffers
-        .map(x => ({ ...x, email: req.email }))
-        .filter(x => x.isDeleted == false);
-    res.render('road-offers', { layout: 'roads', roadOffers: roads });
+	const roadOffers = await getAll();
+	const roads = roadOffers
+		.map(x => ({ ...x, email: req.email }))
+		.filter(x => x.isDeleted == false);
+	res.render('road-offers', { layout: 'roads', roadOffers: roads });
 });
 
 router.get('/about', (req, res) => {
-    res.render('about', { layout: 'about' });
+	res.render('about', { layout: 'about' });
 });
 
 router.get('/contacts', (req, res) => {
-    res.render('contacts', { layout: 'contacts' });
+	res.render('contacts', { layout: 'contacts' });
 });
 
 router.post('/contacts', async (req, res) => {
-    const { name, email, subject, message } = req.body;
+	const { name, email, subject, message } = req.body;
 
-    const SERVICE_ID = 'service_m5m75hf';
-    const TEMPLATE_ID = 'template_41v8civ';
-    const PUBLIC_KEY = 'LTHT5SFyCsSE4GRm5';
-    const ACCESS_TOKEN = '7qrA_ZxWmHTbEksk44nge';
+	const SERVICE_ID = 'service_m5m75hf';
+	const TEMPLATE_ID = 'template_41v8civ';
+	const PUBLIC_KEY = 'LTHT5SFyCsSE4GRm5';
+	const ACCESS_TOKEN = '7qrA_ZxWmHTbEksk44nge';
 
-    const templateParams = {
-        to_email: email,
-        to_name: name,
-        to_subject: subject,
-        to_message: message,
-    };
+	const templateParams = {
+		to_email: email,
+		to_name: name,
+		to_subject: subject,
+		to_message: message,
+	};
 
-    try {
-        const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                service_id: SERVICE_ID,
-                template_id: TEMPLATE_ID,
-                user_id: PUBLIC_KEY,
-                accessToken: ACCESS_TOKEN,
-                template_params: templateParams
-            })
-        });
+	try {
+		const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				service_id: SERVICE_ID,
+				template_id: TEMPLATE_ID,
+				user_id: PUBLIC_KEY,
+				accessToken: ACCESS_TOKEN,
+				template_params: templateParams
+			})
+		});
 
-        if (!response.ok) {
-            throw new Error('Неуспешно изпращане на имейл.');
-        }
+		if (!response.ok) {
+			throw new Error('Неуспешно изпращане на имейл.');
+		}
 
-        console.log('Имейл, изпратен успешно!');
-    } catch (error) {
-        console.error('Грешка при изпращане на имейл:', error.message);
-    }
+		console.log('Имейл, изпратен успешно!');
+	} catch (error) {
+		console.error('Грешка при изпращане на имейл:', error.message);
+	}
 
-    res.redirect('/roads/contacts');
+	res.redirect('/roads/contacts');
 
 });
 
 router.get('/journey-offer', (req, res) => {
-    res.render('trip-create', { layout: 'trip-create' });
+	res.render('trip-create', { layout: 'trip-create' });
 });
 
 router.post('/journey-offer', async (req, res) => {
-    try {
-        const allowedImageFormats = ['image/jpeg', 'image/jpg', 'image/png'];
+	try {
+		const allowedImageFormats = ['image/jpeg', 'image/jpg', 'image/png'];
 
-        if (Object.values(req.body).some(x => x == '')) {
-            throw {
-                message: 'Всички полета са задължителни!'
-            }
-        }
+		if (Object.values(req.body).some(x => x == '')) {
+			throw {
+				message: 'Всички полета са задължителни!'
+			}
+		}
 
-        if (isDatePassed(req.body.date)) {
-            throw {
-                message: 'Избраната дата, вече е отминала. Моля, изберете нова!'
-            }
-        }
+		if (isDatePassed(req.body.date)) {
+			throw {
+				message: 'Избраната дата, вече е отминала. Моля, изберете нова!'
+			}
+		}
 
-        if (req.body.seats <= 0 || req.body.price < 0) {
-            throw {
-                message: 'Невалида стойност при свободните места или таксата за пътуване!'
-            }
-        }
+		if (req.body.seats <= 0 || req.body.price < 0) {
+			throw {
+				message: 'Невалида стойност при свободните места или таксата за пътуване!'
+			}
+		}
 
-        if (req.files == null) {
-            throw {
-                message: 'Моля, изберете изображение на автомобила!'
-            }
-        }
+		if (req.files == null) {
+			throw {
+				message: 'Моля, изберете изображение на автомобила!'
+			}
+		}
 
-        const carImage = req.files.carImage;
+		const carImage = req.files.carImage;
 
-        if (!allowedImageFormats.includes(carImage.mimetype)) {
-            throw {
-                message: 'Невалиден формат на снимката!'
-            }
-        }
+		if (!allowedImageFormats.includes(carImage.mimetype)) {
+			throw {
+				message: 'Невалиден формат на снимката!'
+			}
+		}
 
-        const base64Image = carImage.data.toString('base64');
-        const imageWithPrefix = `data:${carImage.mimetype};base64,${base64Image}`;
-        const _ownerId = req.user;
+		const base64Image = carImage.data.toString('base64');
+		const imageWithPrefix = `data:${carImage.mimetype};base64,${base64Image}`;
+		const _ownerId = req.user;
 
-        const roadData = { ...req.body, carImage: imageWithPrefix, _ownerId, buddies: [] };
+		const roadData = { ...req.body, carImage: imageWithPrefix, _ownerId, buddies: [] };
 
-        const newTrip = await createTrip(roadData);
-        await addOffer(newTrip, req.user);
-        res.redirect('/roads/road-offers');
-    } catch (err) {
-        res.render('trip-create', { layout: 'trip-create', error: { message: err.message } });
-    }
+		const newTrip = await createTrip(roadData);
+		await addOffer(newTrip, req.user);
+		res.redirect('/roads/road-offers');
+	} catch (err) {
+		res.render('trip-create', { layout: 'trip-create', error: { message: err.message } });
+	}
 });
 
 router.get('/offer-details/:offerId', async (req, res) => {
-    const offerId = req.params.offerId;
-    const offerDetails = await getOne(offerId);
-    const passagers = await getAllPassagers(offerId);
+	const offerId = req.params.offerId;
+	const offerDetails = await getOne(offerId);
+	const passagers = await getAllPassagers(offerId);
 
-    res.render('details', {
-        layout: 'details',
-        offerDetails, isOwner: req.user == offerDetails._ownerId.id,
-        noSeats: offerDetails.seats == 0 && !offerDetails.buddies.includes(req.user),
-        hasJoined: offerDetails.buddies.includes(req.user),
-        availableSeats: offerDetails.seats > 0,
-        buddies: passagers.buddies
-    });
+	res.render('details', {
+		layout: 'details',
+		offerDetails, isOwner: req.user == offerDetails._ownerId.id,
+		noSeats: offerDetails.seats == 0 && !offerDetails.buddies.includes(req.user),
+		hasJoined: offerDetails.buddies.includes(req.user),
+		availableSeats: offerDetails.seats > 0 && !offerDetails.buddies.includes(req.user),
+		buddies: passagers.buddies
+	});
 });
 
 router.get('/edit-offer', (req, res) => {
-    res.render('trip-edit', { layout: 'trip-edit' });
+	res.render('trip-edit', { layout: 'trip-edit' });
 });
 
 router.get('/take-seat/:offerId', async (req, res) => {
-    const userEmail = res.locals.email;
-    const offerId = req.params.offerId;
+	const userEmail = res.locals.email;
+	const offerId = req.params.offerId;
 
-    const offer = await getOne(offerId);
-    const user = await getUserData(userEmail);
+	const offer = await getOne(offerId);
+	const user = await getUserData(userEmail);
 
-    const isBuddy = offer.buddies.includes(user.id);
+	const driver = offer._ownerId;
 
-    if (!isBuddy) {
-        const trip = await Trip.findOne({ _id: offerId });
+	const isBuddy = offer.buddies.includes(user.id);
 
-        if (!trip || trip.seats <= 0) {
-            return res.redirect(`/roads/offer-details/${trip.id}`);
-        }
+	if (!isBuddy) {
+		const trip = await Trip.findOne({ _id: offerId });
 
-        const updatedTrip = await Trip.findOneAndUpdate(
-            { _id: offerId, seats: { $gt: 0 } },
-            { $inc: { seats: -1 }, $push: { buddies: user.id } },
-            { new: true }
-        );
+		if (!trip || trip.seats <= 0) {
+			return res.redirect(`/roads/offer-details/${trip.id}`);
+		}
 
-        await User.findByIdAndUpdate(
-            { _id: user.id },
-            { $addToSet: { tripsSubscribedHistory: offerId } },
-            { new: true }
-        );
+		const updatedTrip = await Trip.findOneAndUpdate(
+			{ _id: offerId, seats: { $gt: 0 } },
+			{ $inc: { seats: -1 }, $push: { buddies: user.id } },
+			{ new: true }
+		);
 
-        if (!updatedTrip) {
-            return res.redirect(`/roads/offer-details/${trip.id}`);
-        }
+		await User.findByIdAndUpdate(
+			{ _id: user.id },
+			{ $addToSet: { tripsSubscribedHistory: offerId } },
+			{ new: true }
+		);
 
-        return res.redirect(`/roads/offer-details/${trip.id}`);
-    }
+		if (!updatedTrip) {
+			return res.redirect(`/roads/offer-details/${trip.id}`);
+		}
+
+		const templateParams = {
+			driverName: `${driver.firstName} ${driver.lastName}`,
+			fromCity: offer.startPoint,
+			toCity: offer.endPoint,
+			date: offer.date,
+			time: offer.time,
+			passengerName: `${user.firstName} ${user.lastName}`,
+			passengerPhone: user.phone,
+			passengerEmail: user.email,
+			link: `http://localhost:5000/roads/offer-details/${offer._id}`,
+			appName: 'GoTogether',
+			to_email: driver.email,
+			name: `${user.firstName} ${user.lastName}`,
+			profile: `http://localhost:5000/users/profile/${userEmail}`
+		};
+
+		try {
+			const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					service_id: 'service_t53mrtj',
+					template_id: 'template_zj35hqt',
+					user_id: '3AiylRfCkSqHwsn_y',
+					accessToken: 'vUv4pv5X-XBB2gnFLtNuw',
+					template_params: templateParams
+				})
+			});
+
+			if (!response.ok) {
+				console.log(response);
+				
+				throw new Error('Неуспешно изпращане на имейл.');
+			}
+
+			console.log('Имейл, изпратен успешно!');
+		} catch (error) {
+			console.error('Грешка при изпращане на имейл:', error.message);
+		}
+
+		return res.redirect(`/roads/offer-details/${trip.id}`);
+	}
 });
 
 router.get('/delete-offer/:offerId', async (req, res) => {
-    const offer = await Trip.findById(req.params.offerId);
-    offer.isDeleted = true;
-    await editTrip(offer._id, offer);
-    return res.redirect('/roads/road-offers');
+	const offer = await Trip.findById(req.params.offerId);
+	offer.isDeleted = true;
+	await editTrip(offer._id, offer);
+	return res.redirect('/roads/road-offers');
 });
 
 export default router;
