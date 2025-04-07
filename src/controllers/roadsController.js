@@ -119,6 +119,10 @@ router.post('/journey-offer', async (req, res) => {
 
 		const newTrip = await createTrip(roadData);
 		await addOffer(newTrip, req.user);
+
+		const driver = await User.findById(req.user);
+		driver.points += 5;
+		await driver.save();
 		res.redirect('/roads/road-offers');
 	} catch (err) {
 		res.render('trip-create', { layout: 'trip-create', error: { message: err.message } });
