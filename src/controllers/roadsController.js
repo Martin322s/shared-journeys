@@ -291,8 +291,13 @@ router.get('/delete-offer/:offerId', async (req, res) => {
 
 router.get('/finish-offer/:offerId', async (req, res) => {
 	const offer = await Trip.findById(req.params.offerId);
+	const driver = await User.findById(offer._ownerId);
+	
 	offer.isFinished = true;
 	await editTrip(offer._id, offer);
+
+	driver.points += 10;
+	await driver.save();
 	return res.redirect('/roads/road-offers');
 });
 
