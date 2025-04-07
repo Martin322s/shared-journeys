@@ -17,7 +17,7 @@ router.get('/road-offers', async (req, res) => {
 	const roadOffers = await getAll();
 	const roads = roadOffers
 		.map(x => ({ ...x, email: req.email }))
-		.filter(x => x.isDeleted == false);
+		.filter(x => x.isDeleted == false && x.isFinished == false);
 	res.render('road-offers', { layout: 'roads', roadOffers: roads });
 });
 
@@ -141,8 +141,9 @@ router.get('/offer-details/:offerId', async (req, res) => {
 	});
 });
 
-router.get('/edit-offer', (req, res) => {
-	res.render('trip-edit', { layout: 'trip-edit' });
+router.get('/edit-offer/:offerId', async (req, res) => {
+	const offer = await Trip.findById(req.params.offerId);
+	res.render('trip-edit', { layout: 'trip-edit', offer });
 });
 
 router.get('/take-seat/:offerId', async (req, res) => {
@@ -228,6 +229,13 @@ router.get('/take-seat/:offerId', async (req, res) => {
 router.get('/delete-offer/:offerId', async (req, res) => {
 	const offer = await Trip.findById(req.params.offerId);
 	offer.isDeleted = true;
+	await editTrip(offer._id, offer);
+	return res.redirect('/roads/road-offers');
+});
+
+router.get('/finish-offer/:offerId', async (req, res) => {
+	const offer = await Trip.findById(req.params.offerId);
+	offer.isFinished = true;
 	await editTrip(offer._id, offer);
 	return res.redirect('/roads/road-offers');
 });
