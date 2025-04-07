@@ -1,0 +1,74 @@
+<div class="form-header">
+	Добавяне на ново предизвикателство
+</div>
+<div class="form-container">
+	<form id="challengeForm" action="/admin/create-challenge" method="POST">
+		<div class="form-group">
+			<label for="title" class="required">Заглавие на предизвикателството</label>
+			<input type="text" id="title" name="title" placeholder="Напр. Завърши 5 пътувания" required>
+		</div>
+
+		<div class="form-group">
+			<label for="description" class="required">Описание</label>
+			<textarea id="description" name="description"
+				placeholder="Опишете предизвикателството и как да бъде изпълнено." required></textarea>
+		</div>
+
+		<div class="form-row">
+			<div class="form-group">
+				<label for="reward" class="required">Награда</label>
+				<input type="text" id="reward" name="reward" placeholder="Напр. 50 лв. отстъпка" required>
+			</div>
+			<div class="form-group">
+				<label for="points" class="required">Точки</label>
+				<input type="number" id="points" name="points" min="1" placeholder="Напр. 100" required>
+			</div>
+		</div>
+
+		<div class="form-row">
+			<div class="form-group">
+				<label for="status" class="required">Статус</label>
+				<select id="status" name="status" required>
+					<option value="active">Активно</option>
+					<option value="upcoming">Предстоящо</option>
+					<option value="completed">Завършено</option>
+					<option value="draft">Чернова</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="form-row">
+			<div class="form-group">
+				<label for="goal" class="required">Тип цел</label>
+				<select id="goal" name="goal" required>
+					<option value="trips">Брой пътувания</option>
+					<option value="co2">Спестени кг CO2</option>
+					<option value="cities">Различни градове</option>
+					<option value="invites">Поканени приятели</option>
+					<option value="kilometers">Изминати километри</option>
+					<option value="custom">Друго</option>
+				</select>
+			</div>
+			<div class="form-group">
+				<label for="target" class="required">Целева стойност</label>
+				<input type="number" id="target" name="target" min="1" placeholder="Напр. 5" required>
+			</div>
+		</div>
+
+		<div class="form-row">
+			<div class="form-group">
+				<label for="startDate" class="required">Начална дата</label>
+				<input type="date" id="startDate" name="startDate" required>
+			</div>
+			<div class="form-group">
+				<label for="endDate" class="required">Крайна дата</label>
+				<input type="date" id="endDate" name="endDate" required>
+			</div>
+		</div>
+
+		<div class="form-actions">
+			<a href="/admin" class="btn btn-cancel">Отказ</a>
+			<button type="submit" class="btn btn-primary">Запази</button>
+		</div>
+	</form>
+</div>

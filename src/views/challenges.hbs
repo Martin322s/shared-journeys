@@ -2,8 +2,8 @@
 	Предизвикателства
 </div>
 
-{{#each challengesWithProgress}}
 <div class="challenges-container">
+	{{#each challengesWithProgress}}
 	<div class="challenge-card">
 		<div class="challenge-card-header">
 			<span class="badge">{{status}}</span>
@@ -15,7 +15,7 @@
 					Награда: {{reward}}
 				</div>
 				<div class="challenge-points">
-					{{points}} точки
+					+{{points}} точки
 				</div>
 			</div>
 			<div class="challenge-description">
@@ -24,17 +24,21 @@
 			<div class="challenge-progress">
 				<div class="progress-bar" style="width: {{progressPercent}}%;"></div>
 			</div>
-			<div class="progress-text">{{userProgress}}/5 пътувания</div>
+			<div class="progress-text">{{userProgress}}/{{target}}</div>
 			{{#if userCompleted}}
 			<h6 class="btn btn-primary" disabled>Завършено!</h6>
 			{{else}}
 			{{#if isEnroll}}
 			<h6 class="btn btn-primary" disabled>В прогрес</h6>
 			{{else}}
-			<a href="/user-challenges/enroll/:challengeId" class="btn btn-primary">Започни</a>
+			{{#if hasStarted}}
+			<a href="/roads/user-challenges/enroll/{{_id}}" class="btn btn-primary">Започни</a>
+			{{else}}
+			<h6 class="btn btn-secondary" disabled>Очаква се</h6>
+			{{/if}}
 			{{/if}}
 			{{/if}}
 		</div>
 	</div>
+	{{/each}}
 </div>
-{{/each}}

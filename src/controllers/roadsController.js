@@ -304,14 +304,34 @@ router.get('/finish-offer/:offerId', async (req, res) => {
 
 	driver.points += 10;
 	await driver.save();
+
+	const activeChallenges = await UserChallenge.find({
+		userId: driver._id,
+		completed: false
+	}).populate('challengeId');
+
+	for (const userCh of activeChallenges) {
+		if (userCh.challengeId.goal === 'trips') {
+			userCh.progress += 1;
+
+			if (userCh.progress >= userCh.challengeId.target) {
+				userCh.completed = true;
+				driver.points += userCh.challengeId.points;
+				await driver.save();
+			}
+
+			await userCh.save();
+		}
+	}
+
+
 	return res.redirect('/roads/road-offers');
 });
 
 router.get('/challenges', async (req, res) => {
 	const challenges = await Challenge.find().lean();
 	const userChallenges = await UserChallenge.find().lean();
-
-	console.log(userChallenges);
+	const now = new Date();
 
 	const challengesWithProgress = challenges.map(ch => {
 		const userCh = userChallenges.find(up => up.challengeId.toString() === ch._id.toString());
@@ -321,6 +341,7 @@ router.get('/challenges', async (req, res) => {
 		const rewarded = userCh ? userCh.rewarded : false;
 
 		const percent = ch.target > 0 ? Math.min((progress / ch.target) * 100, 100) : 0;
+		const hasStarted = ch.startDate ? new Date(ch.startDate) <= now : true;
 
 		return {
 			...ch,
@@ -328,12 +349,13 @@ router.get('/challenges', async (req, res) => {
 			userCompleted: completed,
 			userRewarded: rewarded,
 			progressPercent: Number(percent.toFixed(0)),
-			isEnroll: !!userCh
+			isEnroll: !!userCh,
+			hasStarted
 		};
 	});
 
 	console.log(challengesWithProgress);
-	
+
 
 	res.render('challenges', { layout: 'challenges', challengesWithProgress });
 });
