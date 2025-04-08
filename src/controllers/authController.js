@@ -4,6 +4,7 @@ import { privateGuardGuest, privateGuardUser } from '../middlewares/authMiddlewa
 import { myOffers } from '../services/tripService.js';
 import User from '../models/User.js';
 import getRankTitle from '../utils/points.js';
+import bcrypt from 'bcrypt';
 
 const router = express.Router();
 
@@ -286,14 +287,17 @@ router.get('/demote/:userId', async (req, res) => {
 });
 
 router.get('/forgot-password', (req, res) => {
-	console.log(req.session);
-
-	res.render('forgot-password', { layout: 'forgot-password', showCodeField: req.session.resetCode ? true : false });
+	res.render('forgot-password', { layout: 'forgot-password' });
 });
 
 router.post('/forgot-password-change', async (req, res) => {
 	const userEmail = req.body.email;
 	const user = await User.find({ email: userEmail });
+
+
+	if (user?.length == 0) {
+		res.render('forgot-password', { layout: 'forgot-password', error: { message: 'Грешен или непълен имейл адрес!' } });
+	}
 
 	const resetCode = Math.floor(100000 + Math.random() * 900000).toString();
 	req.session.resetCode = resetCode;
@@ -338,6 +342,7 @@ router.post('/forgot-password-change', async (req, res) => {
 
 router.post('/forgot-password-code', async (req, res) => {
 	if (req.body.code == req.session.resetCode) {
+		delete req.session.resetCode;
 		res.render('forgot-password-pass', { layout: 'forgot-password', error: { message: 'Кодът е правилен, моля променете паролата си!' } });
 	} else {
 		res.render('forgot-password-code', { layout: 'forgot-password', error: { message: 'Въведеният код не съвпада!' } });
@@ -345,7 +350,23 @@ router.post('/forgot-password-code', async (req, res) => {
 });
 
 router.post('/forgot-password-pass', async (req, res) => {
-	console.log(req.body);
+	try {
+		const { email, password } = req.body;
+
+		const user = await User.findOne({ email });
+		if (!user) {
+			return res.status(404).render('forgot-password-pass', { layout: 'forgot-password', error: 'Потребителят не е намерен.' });
+		}
+
+		const hashedPassword = await bcrypt.hash(password, 10);
+		user.password = hashedPassword;
+		await user.save();
+
+		res.redirect('/users/login');
+	} catch (error) {
+		console.error(error);
+		res.status(500).render('reset-password', { error: 'Грешка при смяна на паролата. Опитайте отново.' });
+	}
 });
 
 export default router;
