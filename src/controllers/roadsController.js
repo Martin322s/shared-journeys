@@ -292,6 +292,11 @@ router.get('/delete-offer/:offerId', async (req, res) => {
 	const offer = await Trip.findById(req.params.offerId);
 	offer.isDeleted = true;
 	await editTrip(offer._id, offer);
+
+	await User.findByIdAndUpdate(offer._ownerId, {
+		$pull: { tripsSharedHistory: offer._id }
+	});
+	
 	return res.redirect('/roads/road-offers');
 });
 

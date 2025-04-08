@@ -176,6 +176,9 @@ router.get('/profile/:userEmail', privateGuardGuest, async (req, res) => {
 		})
 		.exec();
 
+	console.log(userData.tripsSharedHistory.filter(x => x.isDeleted == false));
+
+
 	res.render('profile', {
 		layout: 'profile',
 		user: {
@@ -185,8 +188,8 @@ router.get('/profile/:userEmail', privateGuardGuest, async (req, res) => {
 			email: userData.email,
 			profilePicture: userData.profilePicture,
 			phone: userData.phone,
-			tripsSubscribedHistory: userData.tripsSubscribedHistory,
-			tripsSharedHistory: userData.tripsSharedHistory,
+			tripsSubscribedHistory: userData.tripsSubscribedHistory.filter(x => x.isDeleted == false),
+			tripsSharedHistory: userData.tripsSharedHistory.filter(x => x.isDeleted == false),
 			createdAt: userData.formattedDate,
 			followers: userData.followers,
 			following: userData.following,
@@ -194,7 +197,7 @@ router.get('/profile/:userEmail', privateGuardGuest, async (req, res) => {
 			accountTitle: getRankTitle(userData.points)
 		},
 		driver: driver,
-		createdRoads,
+		createdRoads: createdRoads.filter(x => x.isDeleted == false),
 		notCurrentUser: !(req.params.userEmail == req.email),
 		follow: req.user !== userData._id.toString() && !userData.followers.includes(req.user),
 		message: req.user !== userData._id.toString() && userData.followers.includes(req.user),
