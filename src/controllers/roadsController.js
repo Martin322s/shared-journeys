@@ -1,5 +1,5 @@
 import express from 'express';
-import { addOffer, createTrip, editTrip, getAll, getAllPassagers, getOne } from '../services/tripService.js';
+import { addOffer, createTrip, editTrip, getAllPassagers, getOne } from '../services/tripService.js';
 import { getUserData } from '../services/authService.js';
 import Trip from '../models/Trip.js';
 import User from '../models/User.js';
@@ -16,10 +16,11 @@ function isDatePassed(dateString) {
 }
 
 router.get('/road-offers', async (req, res) => {
-	const roadOffers = await getAll();
+	const roadOffers = await Trip.find().lean().populate('_ownerId');
 	const roads = roadOffers
 		.map(x => ({ ...x, email: req.email }))
 		.filter(x => x.isDeleted == false && x.isFinished == false);
+
 	res.render('road-offers', { layout: 'roads', roadOffers: roads });
 });
 

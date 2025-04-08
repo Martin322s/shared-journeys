@@ -1,57 +1,56 @@
 <div style="margin-top: 100px;" class="container-fluid page-header py-6 my-6 mt-0" data-wow-delay="0.1s">
-    <div style="margin-top: 80px;" class="container text-center">
-        <h1 class="display-4 text-white animated slideInDown mb-4">Разгледайте споделените предложения</h1>
-        <nav aria-label="breadcrumb animated slideInDown">
-            <ol class="breadcrumb justify-content-center mb-0">
-                <li class="breadcrumb-item text-primary active" aria-current="page">Тук ще намерите информация за
-                    най-добрите възможности, които са споделени. Нашата платформа е създадена, за да ви предостави
-                    удобно, интуитивно и ефективно преживяване.</li>
-            </ol>
-        </nav>
-    </div>
+	<div style="margin-top: 80px;" class="container text-center">
+		<h1 class="display-4 text-white animated slideInDown mb-4">Разгледайте споделените предложения</h1>
+		<nav aria-label="breadcrumb animated slideInDown">
+			<ol class="breadcrumb justify-content-center mb-0">
+				<li class="breadcrumb-item text-primary active" aria-current="page">Тук ще намерите информация за
+					най-добрите възможности, които са споделени. Нашата платформа е създадена, за да ви предостави
+					удобно, интуитивно и ефективно преживяване.</li>
+			</ol>
+		</nav>
+	</div>
 </div>
 
-<!-- Courses Start -->
 <div class="container-xxl py-6">
-    <div class="container">
-        {{#if roadOffers}}
-        <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
-            <h1 class="display-6 mb-4">Открийте вашето следващо приключение:</h1>
-        </div>
-        {{/if}}
-        <div class="row g-4 justify-content-center">
-            {{#if roadOffers}}
-            {{#each roadOffers}}
-            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="courses-item d-flex flex-column bg-light overflow-hidden">
-                    <div class="text-center p-4 pt-0">
-                        <div class="d-inline-block bg-primary text-white fs-5 py-1 px-4 mb-4">{{price}} лв</div>
+	<div class="container">
+		{{#if roadOffers}}
+		<div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 500px;">
+			<h1 class="display-6 mb-4">Открийте вашето следващо приключение:</h1>
+		</div>
+		{{/if}}
+		<div class="row g-4 justify-content-center">
+			{{#if roadOffers}}
+			{{#each roadOffers}}
+			<div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+				<div class="courses-item d-flex flex-column bg-light overflow-hidden">
+					<div class="text-center p-4 pt-0">
+						<div class="d-inline-block bg-primary text-white fs-5 py-1 px-4 mb-4">{{price}} лв</div>
 
-                        {{#if email}}
-                        <h5 class="mb-3">
-                        <a href="/roads/offer-details/{{_id}}">
-                            {{startPoint}} - {{endPoint}}
-                        </a>
-                        </h5>
-                        {{else}}
-                        <h5>{{startPoint}} - {{endPoint}}</h5>
-                        {{/if}}
-                        <p>Търся спътници за пътуване до {{endPoint}}. Тръгване около {{time}} ч. Свободни
-                            {{seats}} места.
-                        </p>
-                        <ol class="breadcrumb justify-content-center mb-0">
-                            <li class="breadcrumb-item small"><i class="fa fa-calendar-alt text-primary me-2"></i>Дата
-                                на пътуване: {{date}}
-                            </li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-            {{/each}}
-            {{else}}
-            <h1 style="text-align: center;">Няма публикувани обяви!</h1>
-            {{/if}}
-        </div>
-    </div>
+						{{#if email}}
+						<h5 class="mb-3">
+							<a href="/roads/offer-details/{{_id}}">
+								{{startPoint}} - {{endPoint}}
+							</a>
+						</h5>
+						{{else}}
+						<h5>{{startPoint}} - {{endPoint}}</h5>
+						{{/if}}
+						<p>Търся спътници за пътуване до {{endPoint}}. Тръгване около {{time}} ч. Свободни
+							{{seats}} места.
+						</p>
+						<ol class="breadcrumb justify-content-center mb-0">
+							<li class="breadcrumb-item small"><i class="fa fa-calendar-alt text-primary me-2"></i>Дата
+								на пътуване: {{date}}
+							</li>
+							<li>Шофьор: {{_ownerId.firstName}} {{_ownerId.lastName}}</li>
+						</ol>
+					</div>
+				</div>
+			</div>
+			{{/each}}
+			{{else}}
+			<h1 style="text-align: center;">Няма публикувани обяви!</h1>
+			{{/if}}
+		</div>
+	</div>
 </div>
-<!-- Courses End -->
