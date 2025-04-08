@@ -285,4 +285,67 @@ router.get('/demote/:userId', async (req, res) => {
 	return res.redirect('/admin');
 });
 
+router.get('/forgot-password', (req, res) => {
+	console.log(req.session);
+
+	res.render('forgot-password', { layout: 'forgot-password', showCodeField: req.session.resetCode ? true : false });
+});
+
+router.post('/forgot-password-change', async (req, res) => {
+	const userEmail = req.body.email;
+	const user = await User.find({ email: userEmail });
+
+	const resetCode = Math.floor(100000 + Math.random() * 900000).toString();
+	req.session.resetCode = resetCode;
+	req.session.resetEmail = user.email;
+
+	const SERVICE_ID = 'service_t53mrtj';
+	const TEMPLATE_ID = 'template_ro88aie';
+	const PUBLIC_KEY = '3AiylRfCkSqHwsn_y';
+	const ACCESS_TOKEN = 'vUv4pv5X-XBB2gnFLtNuw';
+
+	const templateParams = {
+		to_email: userEmail,
+		passcode: req.session.resetCode
+	}
+
+	try {
+		const response = await fetch('https://api.emailjs.com/api/v1.0/email/send', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				service_id: SERVICE_ID,
+				template_id: TEMPLATE_ID,
+				user_id: PUBLIC_KEY,
+				accessToken: ACCESS_TOKEN,
+				template_params: templateParams
+			})
+		});
+
+		if (!response.ok) {
+			throw new Error('Неуспешно изпращане на имейл.');
+		}
+
+		console.log('Имейл, изпратен успешно!');
+	} catch (error) {
+		console.error('Грешка при изпращане на имейл:', error.message);
+	}
+
+	res.render('forgot-password-code', { layout: 'forgot-password', error: { message: 'Кодът е изпратен успешно!' } });
+});
+
+router.post('/forgot-password-code', async (req, res) => {
+	if (req.body.code == req.session.resetCode) {
+		res.render('forgot-password-pass', { layout: 'forgot-password', error: { message: 'Кодът е правилен, моля променете паролата си!' } });
+	} else {
+		res.render('forgot-password-code', { layout: 'forgot-password', error: { message: 'Въведеният код не съвпада!' } });
+	}
+});
+
+router.post('/forgot-password-pass', async (req, res) => {
+	console.log(req.body);
+});
+
 export default router;
