@@ -161,6 +161,98 @@
 			color: #999;
 			cursor: not-allowed;
 		}
+
+		.faq-section {
+			max-width: 800px;
+			margin: 30px auto;
+			background-color: white;
+			border-radius: 5px;
+			box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+			padding: 20px;
+		}
+
+		.faq-header {
+			background-color: #5C2E00;
+			color: white;
+			padding: 15px 20px;
+			border-radius: 5px;
+			margin: -20px -20px 20px -20px;
+			font-size: 18px;
+			text-align: center;
+		}
+
+		.accordion {
+			border-radius: 5px;
+			overflow: hidden;
+		}
+
+		.accordion-item {
+			border: 1px solid #ddd;
+			margin-bottom: 10px;
+			border-radius: 5px;
+			overflow: hidden;
+		}
+
+		.accordion-header {
+			background-color: #f9f9f9;
+		}
+
+		.accordion-item .accordion-button:not(.collapsed) {
+			width: 100%;
+			padding: 15px;
+			background-color: #FFC233;
+			border: none;
+			text-align: left;
+			font-weight: bold;
+			cursor: pointer;
+			color: #5C2E00;
+			font-size: 16px;
+			position: relative;
+			transition: background-color 0.3s;
+		}
+
+		.accordion-button:hover {
+			background-color: #FFCE5C;
+		}
+
+		.accordion-button:after {
+			content: "▼";
+			position: absolute;
+			right: 15px;
+			top: 50%;
+			transform: translateY(-50%);
+			transition: transform 0.3s;
+		}
+
+		.accordion-button.active:after {
+			transform: translateY(-50%) rotate(180deg);
+		}
+
+		.accordion-collapse {
+			max-height: 0;
+			overflow: hidden;
+			transition: max-height 0.3s ease-out;
+		}
+
+		.accordion-body {
+			padding: 15px;
+			background-color: white;
+			padding: 10px;
+		}
+
+		.accordion-body p {
+			margin-bottom: 10px;
+			padding: 10px;
+		}
+
+		.accordion-body ul {
+			padding-left: 20px;
+			margin-bottom: 10px;
+		}
+
+		.accordion-body li {
+			margin-bottom: 5px;
+		}
 	</style>
 </head>
 
@@ -170,6 +262,28 @@
 	{{{body}}}
 
 	{{> footer}}
+
+	<script>
+		function toggleAccordion(id) {
+			const accordionContent = document.getElementById(id);
+			const button = accordionContent.previousElementSibling.querySelector('.accordion-button');
+
+			document.querySelectorAll('.accordion-collapse').forEach(item => {
+				if (item.id !== id) {
+					item.style.maxHeight = null;
+					item.previousElementSibling.querySelector('.accordion-button').classList.remove('active');
+				}
+			});
+
+			button.classList.toggle('active');
+
+			if (accordionContent.style.maxHeight) {
+				accordionContent.style.maxHeight = null;
+			} else {
+				accordionContent.style.maxHeight = accordionContent.scrollHeight + "px";
+			}
+		}
+	</script>
 </body>
 
 </html>

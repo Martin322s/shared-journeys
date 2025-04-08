@@ -394,21 +394,39 @@ router.get('/user-challenges/enroll/:challengeId', async (req, res) => {
 	try {
 		const userId = req.user;
 		const challengeId = req.params.challengeId;
+		const user = await User.findById(userId);
 
 		const exists = await UserChallenge.findOne({ userId, challengeId });
 
-		const userChallenge = new UserChallenge({
-			userId,
-			challengeId
-		});
+		if (!exists) {
+			const userChallenge = new UserChallenge({
+				userId,
+				challengeId,
+				shippingInfo: {
+					fullName: `${user.firstName} ${user.lastName}`,
+					email: user.email,
+					phone: user.phone
+				}
+			});
 
-		await userChallenge.save();
+			await userChallenge.save();
+		}
 
 		res.redirect('/roads/challenges');
 	} catch (err) {
 		console.error(err);
 		res.status(500).send('Грешка при записване за предизвикателство.');
 	}
+});
+
+router.get('/reward-challenge/:userChallengeId', async (req, res) => {
+	const usChId = req.params.userChallengeId;
+	const userChallenge = await UserChallenge.findById(usChId);
+
+	userChallenge.rewarded = true;
+	await userChallenge.save();
+
+	return res.redirect('/admin');
 });
 
 export default router;

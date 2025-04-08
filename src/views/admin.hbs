@@ -127,34 +127,34 @@
 </div>
 
 <div class="publications-section">
-	<h2 class="section-title">Управление на публикации</h2>
+	<h2 class="section-title">Управление на награди от завършени предизвикателства</h2>
 	<table>
 		<thead>
 			<tr>
 				<th>Заглавие</th>
-				<th>Шофьор</th>
-				<th>Дата на пътуване</th>
-				<th>Статус</th>
+				<th>Награда</th>
+				<th>Точки</th>
+				<th>Потребител</th>
+				<th>Имейл</th>
+				<th>Телефон</th>
 				<th>Действия</th>
+
 			</tr>
 		</thead>
 		<tbody>
-			{{#each trips}}
+			{{#each userChallenges}}
 			<tr>
-				<td>Пътуване до {{startPoint}} - {{endPoint}}</td>
-				<td>{{_ownerId.firstName}} {{_ownerId.lastName}}</td>
-				<td>{{date}}</td>
+				<td>{{challengeId.title}}</td>
+				<td>{{challengeId.reward}}</td>
+				<td>{{challengeId.points}}</td>
+				<td>{{shippingInfo.fullName}}</td>
+				<td>{{shippingInfo.email}}</td>
+				<td>{{shippingInfo.phone}}</td>
+
 				<td>
-					{{#if isDeleted}}
-					<span class="publication-status status-deleted">Изтрита</span>
-					{{else}}
-					<span class="publication-status status-active">Активна</span>
-					{{/if}}
-				</td>
-				<td>
-					{{#unless isDeleted}}
-					<a href="/roads/delete-offer/{{_id}}" class="btn btn-delete">
-						<i>🗑️</i> Изтрий
+					{{#unless rewared}}
+					<a href="/roads/reward-challenge/{{_id}}" class="btn btn-success">
+						<i>🗑️</i> Завърши
 					</a>
 					{{/unless}}
 				</td>

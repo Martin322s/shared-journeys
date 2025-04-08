@@ -3,6 +3,7 @@ import User from '../models/User.js';
 import { getAll } from '../services/tripService.js';
 import Trip from '../models/Trip.js';
 import Challenge from '../models/Challenge.js';
+import UserChallenge from '../models/User-Challenge.js';
 
 const router = express.Router();
 
@@ -17,6 +18,14 @@ router.get('/admin', async (req, res) => {
 	const deletedUsers = users.filter(x => x.isDeleted == true);
 	const trips = await Trip.find().lean().populate('_ownerId');
 	const challenges = await Challenge.find().lean();
+	const userChallenges = await UserChallenge
+		.find({
+			completed: true,
+			rewarded: false
+		})
+		.lean()
+		.populate('challengeId');
+
 	res.render('admin', {
 		layout: 'admin',
 		usersCount: users.length,
@@ -25,7 +34,8 @@ router.get('/admin', async (req, res) => {
 		users: users.filter(x => x.isDeleted == false && x._id != req.user),
 		deletedUsers,
 		trips,
-		challengesCount: challenges.length
+		challengesCount: challenges.length,
+		userChallenges
 	});
 });
 

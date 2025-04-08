@@ -6,7 +6,12 @@ const userChallengeSchema = new mongoose.Schema({
 	progress: { type: Number, default: 0 },
 	completed: { type: Boolean, default: false },
 	rewarded: { type: Boolean, default: false },
-	startedAt: { type: Date, default: Date.now }
+	startedAt: { type: Date, default: Date.now },
+	shippingInfo: {
+		fullName: String,
+		phone: String,
+		email: String,
+	}
 });
 
 const UserChallenge = mongoose.model('UserChallenge', userChallengeSchema);
