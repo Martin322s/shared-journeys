@@ -274,8 +274,6 @@ router.get('/take-seat/:offerId', async (req, res) => {
 			});
 
 			if (!response.ok) {
-				console.log(response);
-
 				throw new Error('Неуспешно изпращане на имейл.');
 			}
 
@@ -353,9 +351,6 @@ router.get('/challenges', async (req, res) => {
 			hasStarted
 		};
 	});
-
-	console.log(challengesWithProgress);
-
 
 	res.render('challenges', { layout: 'challenges', challengesWithProgress });
 });
