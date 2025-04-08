@@ -1,162 +1,153 @@
-<!-- Header Start -->
 <div class="container-fluid bg-breadcrumb">
-    <div class="container text-center py-5" style="max-width: 900px;">
-        <h4 class="text-white display-4 mb-4 wow fadeInDown" data-wow-delay="0.1s">За нас</h4>
-        <h6 class="text-white mb-4 wow fadeInDown">Добре дошли в нашата платформа за споделени пътувания – мястото,
-            където пътят става по-приятен, споделен и достъпен за всички.</h6>
-    </div>
-</div>
-<!-- Header End -->
+	<div class="container text-center py-5" style="max-width: 900px;">
+		<h4 class="text-white display-4 mb-4 wow fadeInDown" data-wow-delay="0.1s">За нас</h4>
+		<h6 class="text-white mb-4 wow fadeInDown">Добре дошли в нашата платформа за споделени пътувания – мястото,
+			където пътят става по-приятен, споделен и достъпен за всички.</h6>
+	</div>
 </div>
 
-
-<!-- Abvout Start -->
 <div class="container-fluid about py-5">
-    <div class="container py-5">
-        <div class="row g-5 align-items-center">
-            <div class="col-xl-7 wow fadeInLeft" data-wow-delay="0.2s">
-                <div>
-                    <h4 class="text-primary">За нас</h4>
-                    <h1 class="display-5 mb-4">Присъединете се към нашата платформа и открийте нови възможности за
-                        удобни и безопасни споделени пътувания.</h1>
-                    <p class="mb-4">Ние вярваме в изграждането на общност, която не само споделя маршрути, но и
-                        създава приятелства и спомага за по-устойчиво бъдеще.
-                    </p>
-                    <div class="row g-4">
-                        <div class="col-md-6 col-lg-6 col-xl-6">
-                            <div class="d-flex">
-                                <div><i class="fas fa-lightbulb fa-3x text-primary"></i></div>
-                                <div class="ms-4">
-                                    <h4>Интелигентни решения</h4>
-                                    <p>Нашата услуга е създадена да направи планирането на пътувания бързо и лесно.
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6 col-lg-6 col-xl-6">
-                            <div class="d-flex">
-                                <div><i class="bi bi-bookmark-heart-fill fa-3x text-primary"></i></div>
-                                <div class="ms-4">
-                                    <h4>Доверие и опит</h4>
-                                    <p>Работим усърдно, за да ви предоставим сигурна и удобна платформа за всяко
-                                        ваше пътуване.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-6">
-                            <a href="#" class="btn btn-primary rounded-pill py-3 px-5 flex-shrink-0">Регистрирайте
-                                се</a>
-                        </div>
-                        <div class="col-sm-6">
-                            <div class="d-flex">
-                                <i class="fas fa-phone-alt fa-2x text-primary me-4"></i>
-                                <div>
-                                    <h4>Обаждания при нужда</h4>
-                                    <p class="mb-0 fs-5" style="letter-spacing: 1px;">+359 87 704 0853</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-5 wow fadeInRight" data-wow-delay="0.2s">
-                <div class="bg-primary rounded position-relative overflow-hidden">
-                    <img src="/assets/img/about-2.jpg" class="img-fluid rounded w-100" alt="">
+	<div class="container py-5">
+		<div class="row g-5 align-items-center">
+			<div class="col-xl-7 wow fadeInLeft" data-wow-delay="0.2s">
+				<div>
+					<h4 class="text-primary">За нас</h4>
+					<h1 class="display-5 mb-4">Присъединете се към нашата платформа и открийте нови възможности за
+						удобни и безопасни споделени пътувания.</h1>
+					<p class="mb-4">Ние вярваме в изграждането на общност, която не само споделя маршрути, но и
+						създава приятелства и спомага за по-устойчиво бъдеще.
+					</p>
+					<div class="row g-4">
+						<div class="col-md-6 col-lg-6 col-xl-6">
+							<div class="d-flex">
+								<div><i class="fas fa-lightbulb fa-3x text-primary"></i></div>
+								<div class="ms-4">
+									<h4>Интелигентни решения</h4>
+									<p>Нашата услуга е създадена да направи планирането на пътувания бързо и лесно.
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6 col-lg-6 col-xl-6">
+							<div class="d-flex">
+								<div><i class="bi bi-bookmark-heart-fill fa-3x text-primary"></i></div>
+								<div class="ms-4">
+									<h4>Доверие и опит</h4>
+									<p>Работим усърдно, за да ви предоставим сигурна и удобна платформа за всяко
+										ваше пътуване.</p>
+								</div>
+							</div>
+						</div>
+						{{#unless user}}
+						<div class="col-sm-6">
+							<a href="/users/register"
+								class="btn btn-primary rounded-pill py-3 px-5 flex-shrink-0">Регистрирайте
+								се</a>
+						</div>
+						{{/unless}}
+						<div class="col-sm-6">
+							<div class="d-flex">
+								<i class="fas fa-phone-alt fa-2x text-primary me-4"></i>
+								<div>
+									<h4>Обаждания при нужда</h4>
+									<p class="mb-0 fs-5" style="letter-spacing: 1px;">+359 87 704 0853</p>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-xl-5 wow fadeInRight" data-wow-delay="0.2s">
+				<div class="bg-primary rounded position-relative overflow-hidden">
+					<img src="/assets/img/about-2.jpg" class="img-fluid rounded w-100" alt="">
 
-                    <div class="rounded-bottom">
-                        <img src="/img/about-5.jpg" class="img-fluid rounded-bottom w-100" alt="">
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+					<div class="rounded-bottom">
+						<img src="/img/about-5.jpg" class="img-fluid rounded-bottom w-100" alt="">
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
-<!-- About End -->
 
-<!-- Features Start -->
 <div class="container-fluid feature pb-5">
-    <div class="container pb-5">
-        <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
-            <h4 class="text-primary">Нашите предимства</h4>
-            <h1 class="display-5 mb-4">Свързваме хора, идеи и пътувания за по-голямо въздействие.</h1>
-            <p class="mb-0">Улесняваме свързването между пътуващите и предлагаме ефективни решения за вашите нужди..
-            </p>
-        </div>
-        <div class="row g-4">
-            <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.2s">
-                <div class="feature-item p-4">
-                    <div class="feature-icon p-4 mb-4">
-                        <i class="fas fa-chart-line fa-4x text-primary"></i>
-                    </div>
-                    <h4>Организация на маршрути</h4>
-                    <p class="mb-4">Персонализирани инструменти за по-добро планиране на пътуванията.</p>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.4s">
-                <div class="feature-item p-4">
-                    <div class="feature-icon p-4 mb-4">
-                        <i class="fas fa-university fa-4x text-primary"></i>
-                    </div>
-                    <h4>Партньорска мрежа</h4>
-                    <p class="mb-4">Възможност за връзка с надеждни шофьори и спътници.</p>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.6s">
-                <div class="feature-item p-4">
-                    <div class="feature-icon p-4 mb-4">
-                        <i class="fas fa-file-alt fa-4x text-primary"></i>
-                    </div>
-                    <h4>Управление на данни</h4>
-                    <p class="mb-4">Лесен достъп до важна информация за пътуванията ви.</p>
-                </div>
-            </div>
-            <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.8s">
-                <div class="feature-item p-4">
-                    <div class="feature-icon p-4 mb-4">
-                        <i class="fas fa-hand-holding-usd fa-4x text-primary"></i>
-                    </div>
-                    <h4>Оптимизация на разходите</h4>
-                    <p class="mb-4">Пътувайте изгодно, като споделяте маршрути с други.</p>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="container pb-5">
+		<div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
+			<h4 class="text-primary">Нашите предимства</h4>
+			<h1 class="display-5 mb-4">Свързваме хора, идеи и пътувания за по-голямо въздействие.</h1>
+			<p class="mb-0">Улесняваме свързването между пътуващите и предлагаме ефективни решения за вашите нужди..
+			</p>
+		</div>
+		<div class="row g-4">
+			<div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.2s">
+				<div class="feature-item p-4">
+					<div class="feature-icon p-4 mb-4">
+						<i class="fas fa-chart-line fa-4x text-primary"></i>
+					</div>
+					<h4>Организация на маршрути</h4>
+					<p class="mb-4">Персонализирани инструменти за по-добро планиране на пътуванията.</p>
+				</div>
+			</div>
+			<div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.4s">
+				<div class="feature-item p-4">
+					<div class="feature-icon p-4 mb-4">
+						<i class="fas fa-university fa-4x text-primary"></i>
+					</div>
+					<h4>Партньорска мрежа</h4>
+					<p class="mb-4">Възможност за връзка с надеждни шофьори и спътници.</p>
+				</div>
+			</div>
+			<div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.6s">
+				<div class="feature-item p-4">
+					<div class="feature-icon p-4 mb-4">
+						<i class="fas fa-file-alt fa-4x text-primary"></i>
+					</div>
+					<h4>Управление на данни</h4>
+					<p class="mb-4">Лесен достъп до важна информация за пътуванията ви.</p>
+				</div>
+			</div>
+			<div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.8s">
+				<div class="feature-item p-4">
+					<div class="feature-icon p-4 mb-4">
+						<i class="fas fa-hand-holding-usd fa-4x text-primary"></i>
+					</div>
+					<h4>Оптимизация на разходите</h4>
+					<p class="mb-4">Пътувайте изгодно, като споделяте маршрути с други.</p>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
-<!-- Features End -->
 
-<!-- Team Start -->
 <div class="container-fluid team pb-5 d-flex justify-content-center align-items-center">
-    <div class="container pb-5">
-        <div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
-            <h4 class="text-primary">Нашият екип</h4>
-            <h1 class="display-5 mb-4">Запознайте се с хората, които правят възможно всичко това.</h1>
-            <p class="mb-0">Всеки от нас работи с отдаденост и страст, за да подобри вашето изживяване и да изгради
-                доверие в платформата ни.</p>
-        </div>
-        <div class="d-flex justify-content-center">
-            <div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.8s">
-                <div class="team-item text-center">
-                    <div class="team-img">
-                        <img src="/assets/img/profile-image.jpg" class="img-fluid" alt="">
-                    </div>
-                    <div class="team-title">
-                        <h4 class="mb-0">Мартин Софрониев</h4>
-                        <p class="mb-0">Специалист с доказан опит в програмирането и иновативността.</p>
-                    </div>
-                    <div class="team-icon">
-                        <a target="_blank" class="btn btn-primary btn-sm-square rounded-circle me-3"
-                            href="https://www.facebook.com/profile.php?id=100009733451214&locale=bg_BG"><i
-                                class="fab fa-facebook-f"></i></a>
-                        <a target="_blank" class="btn btn-primary btn-sm-square rounded-circle me-3" href="https://www.linkedin.com/in/martinsofroniev/"><i
-                                class="fab fa-linkedin-in"></i></a>
-                        <a target="_blank" class="btn btn-primary btn-sm-square rounded-circle me-0" href="https://www.instagram.com/martin_13s18/"><i
-                                class="fab fa-instagram"></i></a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+	<div class="container pb-5">
+		<div class="text-center mx-auto pb-5 wow fadeInUp" data-wow-delay="0.2s" style="max-width: 800px;">
+			<h4 class="text-primary">Нашият екип</h4>
+			<h1 class="display-5 mb-4">Запознайте се с хората, които правят възможно всичко това.</h1>
+			<p class="mb-0">Всеки от нас работи с отдаденост и страст, за да подобри вашето изживяване и да изгради
+				доверие в платформата ни.</p>
+		</div>
+		<div class="d-flex justify-content-center">
+			<div class="col-md-6 col-lg-6 col-xl-3 wow fadeInUp" data-wow-delay="0.8s">
+				<div class="team-item text-center">
+					<div class="team-img">
+						<img src="/assets/img/profile-image.jpg" class="img-fluid" alt="">
+					</div>
+					<div class="team-title">
+						<h4 class="mb-0">Мартин Софрониев</h4>
+						<p class="mb-0">Специалист с доказан опит в програмирането и иновативността.</p>
+					</div>
+					<div class="team-icon">
+						<a target="_blank" class="btn btn-primary btn-sm-square rounded-circle me-3"
+							href="https://www.facebook.com/profile.php?id=100009733451214&locale=bg_BG"><i
+								class="fab fa-facebook-f"></i></a>
+						<a target="_blank" class="btn btn-primary btn-sm-square rounded-circle me-3"
+							href="https://www.linkedin.com/in/martinsofroniev/"><i class="fab fa-linkedin-in"></i></a>
+						<a target="_blank" class="btn btn-primary btn-sm-square rounded-circle me-0"
+							href="https://www.instagram.com/martin_13s18/"><i class="fab fa-instagram"></i></a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>
-
-</div>
-<!-- Team End -->
