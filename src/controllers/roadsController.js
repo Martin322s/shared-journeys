@@ -5,6 +5,7 @@ import Trip from '../models/Trip.js';
 import User from '../models/User.js';
 import Challenge from '../models/Challenge.js';
 import UserChallenge from '../models/User-Challenge.js';
+import { privateGuardGuest } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 
@@ -326,7 +327,7 @@ router.get('/finish-offer/:offerId', async (req, res) => {
 	return res.redirect('/roads/road-offers');
 });
 
-router.get('/challenges', async (req, res) => {
+router.get('/challenges', privateGuardGuest, async (req, res) => {
 	const challenges = await Challenge.find().lean();
 	const userChallenges = await UserChallenge.find().lean();
 	const now = new Date();

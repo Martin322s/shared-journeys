@@ -2,7 +2,6 @@ import express from 'express';
 import { generateToken, getUserData, loginUser, registerUser, sendVerificationEmail } from '../services/authService.js';
 import { privateGuardGuest, privateGuardUser } from '../middlewares/authMiddleware.js';
 import { myOffers } from '../services/tripService.js';
-import { editTrip } from '../services/tripService.js';
 import User from '../models/User.js';
 import getRankTitle from '../utils/points.js';
 

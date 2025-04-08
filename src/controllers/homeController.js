@@ -4,6 +4,7 @@ import { getAll } from '../services/tripService.js';
 import Trip from '../models/Trip.js';
 import Challenge from '../models/Challenge.js';
 import UserChallenge from '../models/User-Challenge.js';
+import { privateGuardGuest } from '../middlewares/authMiddleware.js';
 
 const router = express.Router();
 
@@ -13,7 +14,7 @@ router.get('/', async (req, res) => {
 	res.render('index', { layout: 'main', usersCount: users.length, roadsCount: roads.length });
 });
 
-router.get('/admin', async (req, res) => {
+router.get('/admin', privateGuardGuest, async (req, res) => {
 	const users = await User.find().lean();
 	const deletedUsers = users.filter(x => x.isDeleted == true);
 	const trips = await Trip.find().lean().populate('_ownerId');
