@@ -253,11 +253,11 @@ router.get('/take-seat/:offerId', async (req, res) => {
 			passengerName: `${user.firstName} ${user.lastName}`,
 			passengerPhone: user.phone,
 			passengerEmail: user.email,
-			link: `http://localhost:5000/roads/offer-details/${offer._id}`,
+			link: `https://shared-journeys.onrender.com/roads/offer-details/${offer._id}`,
 			appName: 'GoTogether',
 			to_email: driver.email,
 			name: `${user.firstName} ${user.lastName}`,
-			profile: `http://localhost:5000/users/profile/${userEmail}`
+			profile: `https://shared-journeys.onrender.com/users/profile/${userEmail}`
 		};
 
 		try {
