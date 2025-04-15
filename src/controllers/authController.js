@@ -145,7 +145,7 @@ router.post('/register', async (req, res) => {
 		const user = await registerUser(userData);
 
 		if (!user.message) {
-			const verificationLink = `http://localhost:5000/users/verify-email?email=${user.email}`;
+			const verificationLink = `https://shared-journeys.onrender.com//users/verify-email?email=${user.email}`;
 			await sendVerificationEmail(user, verificationLink);
 			res.render('login', {
 				layout: 'login',
